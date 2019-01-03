@@ -6,54 +6,349 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Document</title>
     <link rel="stylesheet" href="modal.css" />
+    <style>
+      body {
+        font-family: Segoe UI;
+        margin: 0;
+        padding: 100px;
+        line-height: 1.5;
+        color: #555;
+        background-color: #fff;
+        overflow-y: scroll;
+      }
+
+      header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        text-align: right;
+        color: #fff;
+        background-color: royalblue;
+        padding: 20px;
+      }
+      .container {
+        max-width: 1170px;
+        margin: 0 auto;
+      }
+      section {
+        padding-top: 20px;
+        padding-bottom: 20px;
+      }
+      section h2 {
+        margin-top: 0;
+        padding-bottom: 10px;
+        font-size: 28px;
+        border-bottom: 1px solid #ddd;
+      }
+      pre, code {
+        font-family: Consolas, Courier, monospace;
+        font-size: inherit;
+        color: #333;
+        border: 1px solid #eee;
+        background-color: rgb(250,250,250);
+      }
+      pre {
+        padding: 1rem;
+        overflow: auto;
+        border-radius: 3px;
+      }
+      pre > code {
+        padding: 0;
+        white-space: pre;
+        border: 0;
+      }
+      code {
+        font-size: 90%;
+        padding: 0.2rem 0.4rem;
+        white-space: nowrap;
+      }
+      .btn {
+        display: inline-block;
+        padding: .5rem 1rem;
+        font-size: inherit;
+        font-family: inherit;
+        vertical-align: middle;
+        text-align: center;
+        text-decoration: none;
+        color: #fff;
+        border: transparent;
+        border-radius: 2px;
+        background-color: #0078e7;
+        cursor: pointer;
+        user-select: none;
+      }
+      .btn:hover {
+        background-image: linear-gradient(transparent,rgba(0,0,0,.05) 40%,rgba(0,0,0,.1));
+      }
+      .btn-active {
+        box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset, 0 0 6px rgba(0,0,0,.2) inset;
+      }
+      .video {
+        min-height: 320px;
+      }
+      .video-responsive {
+        position: relative;
+        max-width: 100%;
+        height: 0;
+        padding-top: 56.25%;
+      }
+      .video-responsive iframe {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+      }
+    </style>
   </head>
 
   <body>
     <header>fixed element</header>
+    <section class="examples">
+      <div class="container">
+        <h2 id="examples">Examples</h2>
+        <p>Check out the some following examples:</p>
+        <button class="btn" data-trigger="#default">Default</button>
+        <button class="btn" data-trigger="#vcenter">Vertical center</button>
+        <button class="btn" data-trigger="#scrollcontent">Scroll content</button>
+        <button class="btn" data-trigger="#noanimation">Noanimation</button>
+        <button class="btn" data-trigger="#video">Custom with iframe</button>
+      </div>
+    </section>
+    <section>
+      <div class="container">
+      	<h2 id="usage">Usage</h2>
+      	<p>HTML markup</p>
+<pre><code>&lt;div class="modal" id="default" role="dialog" aria-labelledby="modalDefault"&gt;
+  &lt;div class="modal__dialog"&gt;
+    &lt;div class="modal__content"&gt;
+  &lt;div class="modal__header"&gt;
+    &lt;div class="modal__title"&gt;Modal&lt;/div&gt;
+    &lt;button type="button" class="modal__close" data-modal="dismiss"&gt;
+        &lt;svg width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"&gt;
+        &lt;path d="M6.34 6.34l11.32 11.32m-11.32 0L17.66 6.34"/&gt;
+      &lt;/svg&gt;
+    &lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class="modal__body"&gt;
+    Some content
+  &lt;/div&gt;
+  &lt;div class="modal__footer"&gt;
+    &lt;button data-modal="dismiss"&gt;Close&lt;/button&gt;
+  &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+      	<p>Init plugin</p>
+<pre><code>var modal = new Modal('#default');
+modal.open();
+</code></pre>
+      </div>
+    </section>
+    <section>
+      <div class="container">
+        <h2 id="methods">Methods</h2>
+        <p>Public methods</p>
+        <ul>
+          <li><strong><code>.open()</code></strong> open modal</li>
+          <li><strong><code>.close()</code></strong> close modal</li>
+          <li><strong><code>.destroy()</code></strong> destroy instance</li>
+        </ul>
+      </div>
+    </section>
+    <section>
+      <div class="container">
+        <h2 id="options">Options</h2>
+        <p>Options and their default values</p>
+<pre><code>{
+  stickySelectors: [],
+  animation: true,
+  backdrop: true,
+  closeBackdrop: true,
+  keyboard: true
+}</code></pre>
+      </div>
+    </section>
 
-    <div class="container" style="max-width: 1170px; margin: 0 auto;">
-      <button class="cart__btn"><span class="cart__total">open</span></button>
-    </div>
+    <section>
+      <div class="container">
+        <h2 id="events">Events</h2>
+        <p>Available events:<br>
+          <ul>
+            <li><code>showModal</code> triggered after opening the window</li>
+            <li><code>hideModal</code> triggered after the window is closed</li>
+          </ul>
+        </p>
+      </div>
+    </section>
 
-    <div
-      class="modal"
-      id="size-info"
-      role="dialog"
-      aria-labelledby="modalSizeTable"
-    >
-      <div class="modal__dialog has-center">
+    <div class="modal" id="default" role="dialog" aria-labelledby="modalDefault">
+      <div class="modal__dialog">
         <div class="modal__content">
           <div class="modal__header">
             <div class="modal__title">Modal</div>
-            <button type="button" class="modal__close">&times;</button>
+            <button type="button" class="modal__close" data-modal="dismiss">
+                <svg width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6.34 6.34l11.32 11.32m-11.32 0L17.66 6.34"/>
+              </svg>
+            </button>
           </div>
           <div class="modal__body">
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Corporis officia reprehenderit nisi ipsam, iste, dolorum vero exercitationem repellendus voluptates magnam eum placeat harum deserunt voluptate. Cum maxime aspernatur at sapiente dicta commodi aperiam ducimus, ullam praesentium vitae qui dignissimos nemo sit laborum? Ducimus voluptas soluta vel quos aperiam quam vitae officia unde sapiente, labore praesentium aut eum neque doloremque accusamus inventore atque? Asperiores voluptas eius temporibus commodi possimus reiciendis, accusantium eaque, dolore tempora aliquam suscipit? Assumenda animi natus harum mollitia sunt unde aut deserunt atque a quibusdam explicabo delectus id vitae autem inventore, rerum, temporibus dolor? Ipsa molestiae rerum qui dolor repellat, ipsam voluptatibus quod odit nam perferendis molestias itaque aut repudiandae reiciendis ipsum architecto quae dolore fuga modi est dolores beatae? Consequatur reprehenderit eveniet et, dignissimos ea nisi cum illo, eum voluptates quo suscipit eaque! Dolore odio inventore culpa repellendus voluptate! Quos mollitia optio doloribus aspernatur fugiat ut magnam eum voluptatibus, error eaque odit distinctio nesciunt quod fuga atque nobis deserunt aperiam. Recusandae reiciendis laboriosam ab officia nam veniam aliquam quaerat deserunt, culpa accusamus blanditiis veritatis facilis illum! Ab voluptas in, nobis nesciunt necessitatibus aliquid qui doloremque natus? Odit, distinctio quo. Labore quidem qui magni impedit nulla saepe sequi neque aliquid iure totam error eligendi perferendis commodi accusamus corrupti ipsa nam cupiditate id sed odio, vel rerum inventore repellendus! Atque asperiores laboriosam repellat perferendis quisquam hic mollitia iste earum laudantium, fugit aliquid excepturi veniam maxime officiis ducimus eos dignissimos. Molestiae eum culpa laudantium fugit tenetur sequi doloribus ratione nemo explicabo, nihil placeat, eius mollitia dolore fuga provident aut aliquid. Obcaecati quas minus blanditiis quos veniam facilis, deserunt rem ipsam soluta, amet sit reiciendis. Sunt quisquam doloremque quae recusandae cum, quidem accusantium commodi nostrum modi ab possimus quis itaque maxime distinctio. Atque, molestias porro? Suscipit fuga mollitia quae nesciunt quos quam atque quod voluptate! Ut culpa neque perferendis quisquam dolores magni eligendi soluta magnam excepturi itaque porro voluptatem rem vel fugiat cumque temporibus corrupti eius ex totam, sed ducimus quidem fugit! Unde incidunt harum eius deleniti eum excepturi, libero alias totam architecto voluptatem illo nemo, nisi debitis aliquid placeat itaque quaerat a facilis sequi voluptas fuga sint. Vero pariatur, quisquam neque voluptates debitis autem quas fuga tenetur non sapiente ea dolor placeat molestias quaerat! Repudiandae asperiores minus distinctio aperiam hic delectus pariatur corrupti ex nobis id cupiditate facilis ut, ipsum placeat deserunt sit nisi aliquid quos assumenda fugiat? Culpa minus quos totam veniam debitis consequuntur deleniti, illo rerum perferendis pariatur. Et nulla tempora aperiam aspernatur. Sequi ab dolore nobis repudiandae cumque inventore commodi, hic voluptatum, accusantium quis exercitationem iste dolor nostrum aut obcaecati, animi dolorem ratione dicta? Ducimus facere voluptates doloribus animi atque nostrum quasi voluptatibus voluptas error voluptatum! Perspiciatis officia fugit esse quia veritatis animi ratione possimus, ex fugiat iusto dolores perferendis odio a dicta nesciunt culpa sint laborum officiis delectus? Consequatur temporibus ullam sequi omnis quae cumque quia consequuntur eligendi vel quos nihil, expedita ipsum laudantium iste neque eius voluptas hic veritatis. Laudantium tempora exercitationem ea blanditiis pariatur?</p>
-            <button data-dismiss="modal">close</button>
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ea ab ullam temporibus culpa nulla veritatis, officiis cum voluptatum hic laudantium qui molestiae deserunt unde nisi dolor beatae necessitatibus ex incidunt architecto aspernatur distinctio quam illum id cupiditate? Ducimus aliquid cupiditate, consequatur dignissimos voluptatibus odio vero at? Voluptas tempore cumque rem reprehenderit laboriosam maxime ex praesentium consequuntur, esse architecto itaque repellendus eligendi repudiandae nesciunt, veritatis expedita labore laudantium. Magni tempore ex harum eum animi dolores. Blanditiis dicta iusto repellendus perferendis nulla molestiae ea ducimus rem id voluptatem facere dolore sit sunt eaque dolor illum, eum veniam, optio quisquam ratione. Molestiae, illum.
+          </div>
+          <div class="modal__footer">
+            <button data-modal="dismiss">Close</button>
           </div>
         </div>
       </div>
     </div>
+
+    <div class="modal" id="vcenter" role="dialog" aria-labelledby="Verttical center">
+      <div class="modal__dialog has-center">
+        <div class="modal__content">
+          <div class="modal__header">
+            <div class="modal__title">Modal</div>
+            <button type="button" class="modal__close" data-modal="dismiss">
+              <svg width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6.34 6.34l11.32 11.32m-11.32 0L17.66 6.34"/>
+              </svg>
+            </button>
+          </div>
+          <div class="modal__body">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore eos numquam soluta harum, id labore facilis, quidem ipsam, ab ipsum quisquam magni vero nam reiciendis magnam? Nobis nemo repellendus animi in nulla facere nostrum tenetur voluptas placeat dolores a ad provident deserunt odio incidunt molestias voluptates adipisci ipsam deleniti odit porro asperiores, optio aut modi? Suscipit molestiae fugit natus aperiam! Fugit praesentium modi animi voluptatibus cupiditate voluptates temporibus eaque, asperiores aspernatur doloribus atque non molestiae repellat assumenda. Quam facere labore optio voluptates necessitatibus sit accusamus ad? Rem suscipit quo et nostrum consequuntur magnam accusantium corporis alias, autem ipsa nisi facere sunt doloremque labore, quam dolore perferendis odit enim. Quisquam quae eum odio dignissimos nulla et hic sint natus dolor debitis sequi veniam itaque quos fuga velit repellat ipsa aliquid inventore.
+          </div>
+          <div class="modal__footer">
+            <button data-modal="dismiss">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="scrollcontent" role="dialog" aria-labelledby="scroll content">
+      <div class="modal__dialog has-center">
+        <div class="modal__content">
+          <div class="modal__header">
+            <div class="modal__title">Modal</div>
+            <button type="button" class="modal__close" data-modal="dismiss">
+              <svg width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6.34 6.34l11.32 11.32m-11.32 0L17.66 6.34"/>
+              </svg>
+            </button>
+          </div>
+          <div class="modal__body">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore eos numquam soluta harum, id labore facilis, quidem ipsam, ab ipsum quisquam magni vero nam reiciendis magnam? Nobis nemo repellendus animi in nulla facere nostrum tenetur voluptas placeat dolores a ad provident deserunt odio incidunt molestias voluptates adipisci ipsam deleniti odit porro asperiores, optio aut modi? Suscipit molestiae fugit natus aperiam! Fugit praesentium modi animi voluptatibus cupiditate voluptates temporibus eaque, asperiores aspernatur doloribus atque non molestiae repellat assumenda. Quam facere labore optio voluptates necessitatibus sit accusamus ad? Rem suscipit quo et nostrum consequuntur magnam accusantium corporis alias, autem ipsa nisi facere sunt doloremque labore, quam dolore perferendis odit enim. Quisquam quae eum odio dignissimos nulla et hic sint natus dolor debitis sequi veniam itaque quos fuga velit repellat ipsa aliquid inventore, eos accusantium consequuntur vitae tempore. Illo animi quia consequuntur repellendus debitis nulla mollitia aperiam consectetur impedit nam est laborum sint, error laboriosam aspernatur, harum reiciendis alias rerum! Temporibus, dolorem. Earum, in officia facilis distinctio porro temporibus sapiente laboriosam sint ab quam deserunt pariatur. Sapiente consequatur voluptate ex soluta ratione repellendus sequi exercitationem necessitatibus, illum totam libero suscipit reprehenderit iste corporis ipsa impedit accusantium provident ab officiis quam. Perferendis illo optio eius dolores voluptatibus velit repellat beatae? In eaque dicta voluptas corporis fugiat dolores atque omnis quisquam at, aliquam ut quasi provident laudantium ab tempora excepturi amet autem unde exercitationem vero corrupti rem culpa. Fuga, cupiditate obcaecati. Nostrum obcaecati voluptas quas autem eius. Maiores cumque perferendis error? Veritatis voluptatum eum cum deleniti tempora laboriosam aliquid quisquam molestias. Dolorum voluptatum libero atque maiores voluptatibus, maxime minus error est deleniti dolorem nisi ullam, magni quibusdam. Odit eius ducimus quod, velit laboriosam quis provident! Sunt eos neque voluptates, aspernatur laboriosam ullam rerum culpa nulla sit quam voluptatibus consequuntur illum odio cumque eaque libero! Fugit non sapiente enim natus! Doloremque expedita alias laboriosam earum perspiciatis in suscipit, dolores temporibus optio veniam sit id nihil voluptates ipsum. Voluptates, nulla autem tempore voluptatem blanditiis voluptatum sed dolore vel unde libero temporibus rerum in laudantium. Maiores perspiciatis eligendi dolor, commodi omnis vel ex nobis consectetur ea, exercitationem officiis inventore saepe nulla explicabo, velit autem. Inventore repellendus assumenda amet praesentium beatae deleniti eos velit fuga quibusdam quae, mollitia vitae sapiente at itaque facilis doloribus, ex consectetur ratione similique, tenetur modi nihil sit. Iusto atque veritatis non odit fuga nostrum hic illum commodi earum fugit voluptas, deserunt velit esse amet nam facilis delectus maxime ipsa nesciunt mollitia iste ipsam quod sit tempora. Cumque, consectetur odit unde, dolores in deserunt id eligendi voluptates officia doloribus nobis error necessitatibus similique earum rem hic omnis laboriosam vitae beatae sapiente. Molestias id excepturi nemo ad quibusdam eveniet, natus minus cumque temporibus! Saepe ratione nulla blanditiis explicabo totam ab enim dolorem sapiente repudiandae! Accusantium, architecto. Eaque, provident iste! Dicta quidem repudiandae ut reprehenderit aperiam deserunt culpa officiis molestias amet, consectetur magni? Architecto corporis ab praesentium quaerat, deleniti quis eaque libero nemo asperiores, eveniet amet, quisquam soluta minus dolorum totam nesciunt fugit error sapiente exercitationem sit?
+          </div>
+          <div class="modal__footer">
+            <button data-modal="dismiss">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="noanimation" role="dialog" aria-labelledby="Animation disable">
+      <div class="modal__dialog has-center">
+        <div class="modal__content">
+          <div class="modal__header">
+            <div class="modal__title">Modal</div>
+            <button type="button" class="modal__close" data-modal="dismiss">
+              <svg width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6.34 6.34l11.32 11.32m-11.32 0L17.66 6.34"/>
+              </svg>
+            </button>
+          </div>
+          <div class="modal__body">
+            <p>
+              Custom config
+            </p>
+<pre><code>var modal = new Modal(element, {
+stickySelectors: ['header'],
+animation: false,
+closeBackdrop: false,
+keyboard: false
+})</code></pre>
+          </div>
+          <div class="modal__footer">
+            <button data-modal="dismiss">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="video" role="dialog" aria-labelledby="youtube">
+      <div class="modal__dialog has-center">
+        <div class="modal__content">
+          <div class="modal__header">
+            <div class="modal__title">Modal</div>
+            <button type="button" class="modal__close" data-modal="dismiss">
+              <svg width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6.34 6.34l11.32 11.32m-11.32 0L17.66 6.34"/>
+              </svg>
+            </button>
+          </div>
+          <div class="modal__body video">
+          </div>
+        </div>
+      </div>
+    </div>
+
   </body>
   <script src="modal.js"></script>
   <script>
-    var modal = new Modal('#size-info', {
+    var config = {
+      stickySelectors: ['header']
+    }
+
+    var trigger1 = document.querySelector('[data-trigger="#default"]');
+    var modal1 = new Modal(trigger1.dataset.trigger, config);
+
+    trigger1.addEventListener('click', function() {
+      modal1.open();
+    });
+
+
+    var trigger2 = document.querySelector('[data-trigger="#vcenter"]');
+    var modal2 = new Modal(trigger2.dataset.trigger, config);
+
+    trigger2.addEventListener('click', function() {
+      modal2.open();
+    });
+
+    var trigger3 = document.querySelector('[data-trigger="#scrollcontent"]');
+    var modal3 = new Modal(trigger3.dataset.trigger, {
+      stickySelectors: ['header']
+    });
+
+    trigger3.addEventListener('click', function() {
+      modal3.open();
+    });
+
+    var trigger4 = document.querySelector('[data-trigger="#noanimation"]');
+    var modal4 = new Modal(trigger4.dataset.trigger, {
       stickySelectors: ['header'],
-      // animation: false,
-      // backdrop: false
-      // closeBackdrop: true
+      animation: false
     });
 
-    document.querySelector('#size-info').addEventListener('showModal', function(e) {
-      console.log('show');
+    trigger4.addEventListener('click', function() {
+      modal4.open();
     });
 
-    document.querySelector('#size-info').addEventListener('hideModal', function(e) {
-      console.log('hide');
+    var iframe = '<div class="video-responsive"><iframe src="https://www.youtube.com/embed/cEq_qmrpNu4" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>';
+    var trigger5 = document.querySelector('[data-trigger="#video"]');
+    var modal5 = new Modal(trigger5.dataset.trigger, config);
+    var modalBody = modal5.element.querySelector('.modal__body');
+
+    modal5.element.addEventListener('showModal', function(e) {
+      modalBody.innerHTML = iframe;
+    });
+    modal5.element.addEventListener('hideModal', function(e) {
+      modalBody.innerHTML = '';
     });
 
-    document.querySelector('button').addEventListener('click', function() {
-      modal.open();
+    trigger5.addEventListener('click', function() {
+      modal5.open();
     });
   </script>
 </html>
