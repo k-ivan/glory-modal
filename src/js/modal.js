@@ -1,66 +1,74 @@
 import Util from './util';
 
-const CLASSES = {
-  modalOpen: 'modal-open',
+const SELECTORS = {
   modalDialog: '.modal__dialog',
   modalContent: '.modal__content',
-  modalClose: '.modal__close'
+  modalBody: '.modal__body',
+  modalDismiss: '[data-modal="dismiss"]'
+}
+
+const CLASSESS = {
+  open: 'modal-open',
+  show: 'is-show',
+  hasAnimate: 'has-animate',
+  backdrop: 'modal-backdrop'
 }
 
 const DEFAULTS = {
-  backdrop: true,
-  animation: true,
   stickySelectors: [],
-  closeBackdrop: true
+  animation: true,
+  backdrop: true,
+  closeBackdrop: true,
+  keyboard: true
 }
 
 class Modal {
-  constructor(el, opts = {}) {
+  constructor(el, options = {}) {
     if (!el) return false;
 
     if (typeof el === 'string') {
       this.modal = document.querySelector(el);
+    } else {
+      this.modal = el;
     }
 
-    if (!(this.modal instanceof HTMLElement)) {
+    if (!(this.modal instanceof Element)) {
       return false;
     }
 
-    if (this.modal.isActive) {
-      return false;
+    // if the instance exists, then return it
+    if (this.modal.instance) {
+      return this.modal.instance;
     }
 
-    this.modal.isActive = true;
+    this.modal.instance = this;
     this.modal.tabIndex = '-1';
 
     this.isOpen = false;
     this.isTransitiong = false;
-    this.settings = Object.assign(DEFAULTS, opts);
+    // this.settings = Object.assign({}, DEFAULTS, options);
+    this.settings = {
+      ...DEFAULTS,
+      ...options
+    }
     this.transitionEndEvent = Util.transitionEnd();
     this.init();
   }
 
   init() {
     this.body = document.body;
-    this.modalDialog = this.modal.querySelector(CLASSES.modalDialog);
-    this.modalContent = this.modal.querySelector(CLASSES.modalContent);
-    this.modalClose = this.modal.querySelector(CLASSES.modalClose);
-
-    this.focusableEls = Array.prototype.slice.call(
-      this.modal.querySelectorAll(
-        'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), [tabindex="0"]'
-      )
-    );
-    this.focusableElFirst = this.focusableEls[0];
-    this.focusableElLast = this.focusableEls[this.focusableEls.length - 1];
-    this.modal.focus();
+    this.modalDialog = this.modal.querySelector(SELECTORS.modalDialog);
+    this.modalContent = this.modal.querySelector(SELECTORS.modalContent);
+    this.modalBody = this.modal.querySelector(SELECTORS.modalBody);
+    this.modalDismiss = Array.prototype.slice.call(this.modal.querySelectorAll(SELECTORS.modalDismiss));
 
     this.scrollbarWidth = 0;
 
     if (this.settings.animation) {
-      this.modalDialog.classList.add('has-animate');
+      this.modal.classList.add(CLASSESS.hasAnimate);
     }
 
+    this._focusable();
     this._attachEvents();
   }
 
@@ -70,6 +78,8 @@ class Modal {
 
   _attachEvents() {
     this.closeHandler = e => {
+      e.preventDefault();
+      e.stopPropagation();
       this.close();
     };
     this.clickModal = e => {
@@ -78,35 +88,61 @@ class Modal {
         this.close();
       }
     };
-    this.modalClose.addEventListener('click', this.closeHandler);
-    this.modal
-      .querySelector('[data-dismiss="modal"]')
-      .addEventListener('click', this.closeHandler);
+
+    this.modalDismiss.forEach(dismiss => {
+      dismiss.addEventListener('click', this.closeHandler);
+    });
 
     if (this.settings.closeBackdrop) {
       this.modal.addEventListener('click', this.clickModal);
     }
 
-    this.keyHandler = this._keyHandler.bind(this);
-    this.modal.addEventListener('keydown', this.keyHandler);
+    if (this.settings.keyboard) {
+      this.keyHandler = this._keyHandler.bind(this);
+      this.modal.addEventListener('keydown', this.keyHandler);
+    }
   }
 
   _dettachEvents() {
     if (this.settings.closeBackdrop) {
       this.modal.removeEventListener('click', this.clickModal);
     }
-    this.modalClose.removeEventListener('click', this.closeHandler);
-    this.modal.removeEventListener('keydown', this.keyHandler);
-    this.modal
-      .querySelector('[data-dismiss="modal"]')
-      .removeEventListener('click', this.closeHandler);
+    this.modalDismiss.forEach(dismiss => {
+      dismiss.removeEventListener('click', this.closeHandler);
+    });
+
+    if (this.settings.keyboard) {
+      this.modal.removeEventListener('keydown', this.keyHandler);
+    }
+  }
+
+  _focusable() {
+    this.focusableEls = Array.prototype.slice.call(
+      this.modal.querySelectorAll(
+        `a[href],
+        area[href],
+        input:not([disabled]):not([type="hidden"]):not([aria-hidden]),
+        select:not([disabled]):not([aria-hidden]),
+        textarea:not([disabled]):not([aria-hidden]),
+        button:not([disabled]):not([aria-hidden]),
+        iframe,
+        object,
+        embed,
+        [contenteditable],
+        [tabindex]:not([tabindex^="-"])`
+      )
+    )
+    this.focusableElFirst = this.focusableEls[0];
+    this.focusableElLast = this.focusableEls[this.focusableEls.length - 1];
   }
 
   _keyHandler(e) {
     const ESC = 27;
     const TAB = 9;
     const focusPrev = () => {
-      if (document.activeElement === this.focusableElFirst) {
+      console.log(document.activeElement);
+
+      if (document.activeElement === this.focusableElFirst || document.activeElement === this.modal) {
         e.preventDefault();
         this.focusableElLast.focus();
       }
@@ -148,7 +184,7 @@ class Modal {
     // Create the measurement node
     const scrollDiv = document.createElement('div');
     scrollDiv.style.cssText = `
-    	width: 100px;
+      width: 100px;
       height: 100px;
       overflow: scroll;
       position: absolute;
@@ -166,9 +202,9 @@ class Modal {
 
   _createBackdrop() {
     const backdrop = document.createElement('div');
-    backdrop.className = 'modal-backdrop';
+    backdrop.className = CLASSESS.backdrop;
     if (this.settings.animation) {
-      backdrop.className += ' has-animate';
+      backdrop.className += ` ${CLASSESS.hasAnimate}`;
     }
     document.body.appendChild(backdrop);
     return backdrop;
@@ -176,99 +212,115 @@ class Modal {
 
   _setScrollOffset() {
     this.hasScrollbar = this._checkScrollbar();
-    this.body.classList.add('modal-open');
+    this.body.classList.add(CLASSESS.open);
 
     if (!this.hasScrollbar) return;
 
     this.scrollbarWidth = this._getScrollbarWidth();
-    this.body.style['margin-right'] = `${this.scrollbarWidth}px`;
+
+    const actualMargin = this.body.style['margin-right'];
+    const calculatedMargin = parseFloat(getComputedStyle(this.body)['margin-right']);
+    this.body.setAttribute('data-modal-margin', actualMargin);
+    this.body.style['margin-right'] = `${calculatedMargin + this.scrollbarWidth}px`;
 
     this.settings.stickySelectors.forEach(selector => {
-      const el = document.querySelector(selector);
-      if (!el) return;
-      el.style['margin-right'] = `${this.scrollbarWidth}px`;
+      this.stickySelectors = Array.prototype.slice.call(document.querySelectorAll(selector));
+      this.stickySelectors.forEach(el => {
+        const actualMargin = el.style['margin-right'];
+        const calculatedMargin = parseFloat(getComputedStyle(el)['margin-right']);
+        el.setAttribute('data-modal-margin', actualMargin);
+        el.style['margin-right'] = `${calculatedMargin + this.scrollbarWidth}px`;
+      });
     });
   }
 
   _resetScrollOffset() {
-    this.body.classList.remove('modal-open');
+    this.body.classList.remove(CLASSESS.open);
 
     if (!this.hasScrollbar) return;
 
-    this.body.style['margin-right'] = '';
-    this.settings.stickySelectors.forEach(selector => {
-      const el = document.querySelector(selector);
-      if (!el) return;
-      el.style['margin-right'] = '';
-    });
+    this.body.style['margin-right'] = this.body.getAttribute('data-modal-margin') || '';
+    this.body.removeAttribute('data-modal-margin');
+
+    if (this.stickySelectors && Array.isArray(this.stickySelectors)) {
+      this.stickySelectors.forEach(el => {
+        el.style['margin-right'] = el.getAttribute('data-modal-margin') || '';
+        el.removeAttribute('data-modal-margin');
+      });
+    }
   }
 
   _adjustModal() {
     this.scrollbarWidth = this._getScrollbarWidth();
-    this.modal.classList.add('is-animating');
+    this.modal.style.overflow = 'hidden';
     this.modal.style.marginRight = `${this.scrollbarWidth}px`;
   }
 
   _resetAdjustModal() {
-    this.modal.classList.remove('is-animating');
+    this.modal.style.overflow = '';
     this.modal.style.marginRight = '';
   }
 
   open() {
+    if (!this.modal) return;
+
     if (this.isOpen || this.isTransitiong) return;
 
     this.isOpen = true;
+    this.focusableSave = document.activeElement;
 
     this._setScrollOffset();
 
     if (this.settings.backdrop) {
       this.backdrop = this._createBackdrop(this);
     }
-    this.modal.classList.add('is-open');
+    this.modal.style.display = 'block';
 
     this.isTransitiong = true;
     this.modal.scrollTop = 0;
 
     setTimeout(() => {
       if (this.backdrop) {
-        this.backdrop.classList.add('is-show');
+        this.backdrop.classList.add(CLASSESS.show);
       }
-      this.modalDialog.classList.add('is-show');
+      // this.modalDialog.classList.add(CLASSESS.show);
+      this.modal.classList.add(CLASSESS.show);
     }, 20);
 
-    if (this.transitionEndEvent && this.settings.animation) {
+    if (this.settings.animation) {
       this._adjustModal();
 
       const duration = Util.getTransitionDurationFromElement(this.modalDialog);
 
-      Util.onceListener(this.modalDialog, this.transitionEndEvent, (e) => {
-        this.modal.focus();
-        this._resetAdjustModal();
+      Util.onceTransitionEnd(this.modalDialog, this.transitionEndEvent, (e) => {
         this.isTransitiong = false;
+        this._resetAdjustModal();
+        this.modal.focus();
         Util.customTrigger('showModal', this.modal);
       });
       Util.emulateTransitionEnd(this.modalDialog, duration);
     } else {
-      this.modal.focus();
       this.isTransitiong = false;
+      this.modal.focus();
       Util.customTrigger('showModal', this.modal);
     }
   }
 
-  close(e) {
+  close() {
+    if (!this.modal) return;
+
     if (!this.isOpen || this.isTransitiong) return;
 
-    this.modalDialog.classList.remove('is-show');
+    this.modal.classList.remove(CLASSESS.show);
     this.hideBackdrop();
 
     this.isOpen = false;
     this.isTransitiong = true;
 
-    if (this.settings.animation && this.transitionEndEvent) {
+    if (this.settings.animation) {
       this._adjustModal();
-
       const duration = Util.getTransitionDurationFromElement(this.modalDialog);
-      Util.onceListener(this.modalDialog, this.transitionEndEvent, this.hideModal.bind(this));
+      Util.onceTransitionEnd(this.modalDialog, this.transitionEndEvent, this.hideModal.bind(this));
       Util.emulateTransitionEnd(this.modalDialog, duration);
     } else {
       this.hideModal();
@@ -278,12 +330,12 @@ class Modal {
   hideBackdrop() {
     if (!this.backdrop) return;
 
-    this.backdrop.classList.remove('is-show');
+    this.backdrop.classList.remove(CLASSESS.show);
 
-    if (this.settings.animation && this.transitionEndEvent) {
+    if (this.settings.animation) {
       const duration = Util.getTransitionDurationFromElement(this.backdrop);
 
-      Util.onceListener(this.modalDialog, this.transitionEndEvent, (e) => {
+      Util.onceTransitionEnd(this.backdrop, this.transitionEndEvent, (e) => {
         if (this.backdrop.parentNode) {
           this.backdrop.parentNode.removeChild(this.backdrop);
         }
@@ -297,16 +349,28 @@ class Modal {
   hideModal() {
     this._resetScrollOffset();
     this._resetAdjustModal();
-    this.modal.classList.remove('is-open');
+    this.modal.style.display = '';
     this.isTransitiong = false;
+    if (this.focusableSave) {
+      this.focusableSave.focus();
+    }
+
     Util.customTrigger('hideModal', this.modal);
   }
 
   unobserve() {
     if (!this.modal) return;
 
+    // If backdrop and modal active
+    if (this.backdrop && this.backdrop.parentNode) {
+      this.backdrop.parentNode.removeChild(this.backdrop)
+    }
+    this.hideModal();
+    this.modal.classList.remove(CLASSESS.hasAnimate, CLASSESS.show);
+
     this._dettachEvents();
-    delete this.modal.isActive;
+
+    delete this.modal.instance;
     Object.keys(this).forEach(item => {
       delete this[item];
     });

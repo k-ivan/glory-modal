@@ -1,23 +1,7 @@
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
-}
-
-body {
-  font-family: Segoe UI;
-  margin: 0;
-  padding: 100px;
-  background-color: whitesmoke;
-}
-
-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  text-align: right;
-  color: #fff;
-  background-color: royalblue;
-  padding: 20px;
 }
 
 body.modal-open {
@@ -58,22 +42,20 @@ body.modal-open {
   outline: 0;
 }
 
-.modal.is-open {
-  display: block;
-}
-
-.modal.is-animating {
-  overflow: hidden;
-}
-
-.modal__dialog.has-animate {
-  transition: opacity 0.15s ease, -webkit-transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.15s ease;
-  transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.15s ease, -webkit-transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+.modal.has-animate .modal__dialog {
   will-change: transform, opacity;
+  opacity: 0;
   -webkit-transform: translateY(50px);
           transform: translateY(50px);
-  opacity: 0;
+  transition: opacity 0.15s ease, -webkit-transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: opacity 0.15s ease, transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: opacity 0.15s ease, transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275), -webkit-transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.modal.has-animate.is-show .modal__dialog {
+  opacity: 1;
+  -webkit-transform: none;
+          transform: none;
 }
 
 @media (min-width: 480px) {
@@ -97,12 +79,6 @@ body.modal-open {
     display: block;
     height: calc(100vh - 60px);
   }
-}
-
-.modal__dialog.has-animate.is-show {
-  opacity: 1;
-  -webkit-transform: none;
-          transform: none;
 }
 
 .modal__content {
@@ -129,6 +105,11 @@ body.modal-open {
 .modal__header {
   display: flex;
   align-items: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.modal__footer {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .modal__title {
@@ -138,19 +119,27 @@ body.modal-open {
 
 .modal__close {
   margin-left: auto;
-  float: right;
+  padding: 0;
   border: 0;
-  color: transparent;
   background-color: transparent;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: 24px;
-  cursor: pointer;
-  outline: 0;
   opacity: 0.5;
+  cursor: pointer;
+  transition: opacity .25s ease;
+}
+
+.modal__close svg {
+  display: block;
+  width: 28px;
+  height: 28px;
+  stroke: currentColor;
+  fill: none;
 }
 
 .modal__close:hover {
-  opacity: 0.8;
+  opacity: 1;
+}
+
+.modal button {
+  transition: 0.1s;
 }
 

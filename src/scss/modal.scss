@@ -1,24 +1,9 @@
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
-body {
-  font-family: Segoe UI;
-  margin: 0;
-  padding: 100px;
-  background-color: whitesmoke;
-  // overflow-y: scroll;
-}
 
-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  text-align: right;
-  color: #fff;
-  background-color: royalblue;
-  padding: 20px;
-}
 
 body.modal-open {
   overflow-y: hidden;
@@ -55,25 +40,21 @@ body.modal-open {
   -webkit-overflow-scrolling: touch;
   outline: 0;
 
-  &.is-open {
-    display: block;
+  &.has-animate &__dialog {
+    will-change: transform, opacity;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.15s ease, transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    // transition: transform 0.2s ease, opacity 0.15s linear;
+    // transform: scale(0.95);
   }
 
-  &.is-animating {
-    overflow: hidden;
+  &.has-animate.is-show &__dialog {
+    opacity: 1;
+    transform: none;
   }
 
   &__dialog {
-    &.has-animate {
-      transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-        opacity 0.15s ease;
-      // transition: transform 0.35s ease,
-      //   opacity 0.15s linear;
-      will-change: transform, opacity;
-      transform: translateY(50px);
-      // transform: scale(0.95);
-      opacity: 0;
-    }
     @media (min-width: 480px) {
       position: relative;
       max-width: 550px;
@@ -93,10 +74,6 @@ body.modal-open {
         align-items: center;
         min-height: calc(100vh - 60px);
       }
-    }
-    &.has-animate.is-show {
-      opacity: 1;
-      transform: none;
     }
   }
   &__content {
@@ -121,6 +98,11 @@ body.modal-open {
   &__header {
     display: flex;
     align-items: center;
+    border-bottom: 1px solid rgba(#000, 0.1);
+  }
+
+  &__footer {
+    border-top: 1px solid rgba(#000, 0.1);
   }
 
   &__title {
@@ -130,21 +112,27 @@ body.modal-open {
 
   &__close {
     margin-left: auto;
-    float: right;
+    padding: 0;
     border: 0;
-    color: transparent;
     background-color: transparent;
-    // background-image: url(../image/close.svg);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: 24px;
-    cursor: pointer;
-    outline: 0;
     opacity: 0.5;
+    cursor: pointer;
+    transition: opacity .25s ease;
 
-    &:hover {
-      opacity: 0.8;
+    svg {
+      display: block;
+      width: 28px;
+      height: 28px;
+      stroke: currentColor;
+      fill: none;
     }
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  button {
+    transition: 0.1s;
   }
 }
 

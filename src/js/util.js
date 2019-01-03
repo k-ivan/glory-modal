@@ -10,7 +10,7 @@ export default {
     const callback = function() {
       if (!called) {
         const evt = document.createEvent('HTMLEvents');
-        evt.initEvent(transitionEnd, true, false);
+        evt.initEvent(transitionEnd, false, false);
         el.dispatchEvent(evt);
       }
     };
@@ -78,11 +78,14 @@ export default {
     el.dispatchEvent(evt);
   },
 
-  onceListener(el, evt, cb) {
+  onceTransitionEnd(el, evt, cb, useCapture = false) {
     const handler = function(e) {
-      el.removeEventListener(e.type, handler, false);
-      cb.call(this, e);
+      // Filter by the event's target to exclude children's events
+      if (e.target === el) {
+        el.removeEventListener(e.type, handler, useCapture);
+        cb.call(this, e);
+      }
     };
-    el.addEventListener(evt, handler, false);
+    el.addEventListener(evt, handler, useCapture);
   }
 };
