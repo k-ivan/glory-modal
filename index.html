@@ -10,13 +10,11 @@
       body {
         font-family: Segoe UI;
         margin: 0;
-        padding: 100px;
         line-height: 1.5;
         color: #555;
         background-color: #fff;
         overflow-y: scroll;
       }
-
       header {
         position: fixed;
         top: 0;
@@ -30,6 +28,11 @@
       .container {
         max-width: 1170px;
         margin: 0 auto;
+        padding-right: 20px;
+        padding-left: 20px;
+      }
+      main {
+        padding-top: 100px;
       }
       section {
         padding-top: 20px;
@@ -62,6 +65,15 @@
         font-size: 90%;
         padding: 0.2rem 0.4rem;
         white-space: nowrap;
+      }
+      .example-list {
+        margin: 0;
+        padding-left: 0;
+        list-style: none;
+      }
+      .example-list li {
+        display: inline-block;
+        margin: 3px;
       }
       .btn {
         display: inline-block;
@@ -106,21 +118,24 @@
 
   <body>
     <header>fixed element</header>
-    <section class="examples">
-      <div class="container">
-        <h2 id="examples">Examples</h2>
-        <p>Check out the some following examples:</p>
-        <button class="btn" data-trigger="#default">Default</button>
-        <button class="btn" data-trigger="#vcenter">Vertical center</button>
-        <button class="btn" data-trigger="#scrollcontent">Scroll content</button>
-        <button class="btn" data-trigger="#noanimation">Noanimation</button>
-        <button class="btn" data-trigger="#video">Custom with iframe</button>
-      </div>
-    </section>
-    <section>
-      <div class="container">
-      	<h2 id="usage">Usage</h2>
-      	<p>HTML markup</p>
+    <main>
+      <section class="examples">
+        <div class="container">
+          <h2 id="examples">Examples</h2>
+          <p>Check out the some following examples:</p>
+          <ul class="example-list">
+            <li><button class="btn" data-trigger="#default">Default</button></li>
+            <li><button class="btn" data-trigger="#vcenter">Vertical center</button></li>
+            <li><button class="btn" data-trigger="#scrollcontent">Scroll content</button></li>
+            <li><button class="btn" data-trigger="#noanimation">Noanimation</button></li>
+            <li><button class="btn" data-trigger="#video">Custom with iframe</button></li>
+          </ul>
+        </div>
+      </section>
+      <section>
+        <div class="container">
+          <h2 id="usage">Usage</h2>
+          <p>HTML markup</p>
 <pre><code>&lt;div class="modal" id="default" role="dialog" aria-labelledby="modalDefault"&gt;
   &lt;div class="modal__dialog"&gt;
     &lt;div class="modal__content"&gt;
@@ -142,27 +157,27 @@
   &lt;/div&gt;
 &lt;/div&gt;
 </code></pre>
-      	<p>Init plugin</p>
-<pre><code>var modal = new Modal('#default');
-modal.open();
-</code></pre>
-      </div>
-    </section>
-    <section>
-      <div class="container">
-        <h2 id="methods">Methods</h2>
-        <p>Public methods</p>
-        <ul>
-          <li><strong><code>.open()</code></strong> open modal</li>
-          <li><strong><code>.close()</code></strong> close modal</li>
-          <li><strong><code>.destroy()</code></strong> destroy instance</li>
-        </ul>
-      </div>
-    </section>
-    <section>
-      <div class="container">
-        <h2 id="options">Options</h2>
-        <p>Options and their default values</p>
+          <p>Init plugin</p>
+  <pre><code>var modal = new Modal('#default');
+  modal.open();
+  </code></pre>
+        </div>
+      </section>
+      <section>
+        <div class="container">
+          <h2 id="methods">Methods</h2>
+          <p>Public methods</p>
+          <ul>
+            <li><strong><code>.open()</code></strong> open modal</li>
+            <li><strong><code>.close()</code></strong> close modal</li>
+            <li><strong><code>.destroy()</code></strong> destroy instance</li>
+          </ul>
+        </div>
+      </section>
+      <section>
+        <div class="container">
+          <h2 id="options">Options</h2>
+          <p>Options and their default values</p>
 <pre><code>{
   stickySelectors: [],
   animation: true,
@@ -170,20 +185,21 @@ modal.open();
   closeBackdrop: true,
   keyboard: true
 }</code></pre>
-      </div>
-    </section>
+        </div>
+      </section>
 
-    <section>
-      <div class="container">
-        <h2 id="events">Events</h2>
-        <p>Available events:<br>
-          <ul>
-            <li><code>showModal</code> triggered after opening the window</li>
-            <li><code>hideModal</code> triggered after the window is closed</li>
-          </ul>
-        </p>
-      </div>
-    </section>
+      <section>
+        <div class="container">
+          <h2 id="events">Events</h2>
+          <p>Available events:<br>
+            <ul>
+              <li><code>showModal</code> triggered after opening the window</li>
+              <li><code>hideModal</code> triggered after the window is closed</li>
+            </ul>
+          </p>
+        </div>
+      </section>
+    </main>
 
     <div class="modal" id="default" role="dialog" aria-labelledby="modalDefault">
       <div class="modal__dialog">
@@ -261,14 +277,8 @@ modal.open();
           </div>
           <div class="modal__body">
             <p>
-              Custom config
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae, provident incidunt iusto maiores amet quae iure, architecto nostrum, commodi accusantium corporis molestiae nesciunt. Obcaecati in a mollitia iusto neque! Temporibus deleniti cupiditate rem exercitationem ex optio. Nam, doloribus quidem quasi cumque repellat quos perferendis nobis! Saepe, cumque unde facere, iste repellendus sit praesentium alias odit, molestias quae exercitationem fugit earum. Voluptatum in dolorem ipsum deleniti quisquam porro repudiandae. Iure ullam hic aliquid, omnis doloribus architecto in qui neque nesciunt voluptatum, error sit? Non omnis modi, sit reprehenderit, asperiores tempore consequuntur ipsam quaerat perferendis fuga accusamus voluptas similique atque id incidunt doloremque dolore cum fugit itaque blanditiis, vero aliquam at. Eveniet natus nobis aspernatur nihil alias voluptatum sapiente beatae autem asperiores.
             </p>
-<pre><code>var modal = new Modal(element, {
-stickySelectors: ['header'],
-animation: false,
-closeBackdrop: false,
-keyboard: false
-})</code></pre>
           </div>
           <div class="modal__footer">
             <button data-modal="dismiss">Close</button>
