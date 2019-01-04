@@ -32,6 +32,7 @@ export default {
     return false;
   },
 
+  // from bootstrap modal util
   getTransitionDurationFromElement(element) {
     if (!element) {
       return 0;
