@@ -1,9 +1,3 @@
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
 body.modal-open {
   overflow-y: hidden;
   -webkit-overflow-scrolling: auto;
@@ -42,14 +36,20 @@ body.modal-open {
   outline: 0;
 }
 
+.modal *,
+.modal *::before,
+.modal *::after {
+  box-sizing: border-box;
+}
+
 .modal.has-animate .modal__dialog {
   will-change: transform, opacity;
   opacity: 0;
   -webkit-transform: translateY(50px);
           transform: translateY(50px);
-  transition: opacity 0.15s ease, -webkit-transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  transition: opacity 0.15s ease, transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  transition: opacity 0.15s ease, transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275), -webkit-transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: opacity 0.15s linear, -webkit-transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: opacity 0.15s linear, transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: opacity 0.15s linear, transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275), -webkit-transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .modal.has-animate.is-show .modal__dialog {
@@ -137,9 +137,5 @@ body.modal-open {
 
 .modal__close:hover {
   opacity: 1;
-}
-
-.modal button {
-  transition: 0.1s;
 }
 

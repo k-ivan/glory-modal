@@ -4,16 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Document</title>
+    <title>Modal</title>
     <link rel="stylesheet" href="modal.css" />
     <style>
       body {
         font-family: Segoe UI;
         margin: 0;
+        padding-top: 100px;
         line-height: 1.5;
         color: #555;
         background-color: #fff;
-        overflow-y: scroll;
       }
       header {
         position: fixed;
@@ -23,16 +23,14 @@
         text-align: right;
         color: #fff;
         background-color: royalblue;
+        background: linear-gradient(to right, #4568dc, #b06ab3);
         padding: 20px;
       }
       .container {
-        max-width: 1170px;
+        max-width: 800px;
         margin: 0 auto;
         padding-right: 20px;
         padding-left: 20px;
-      }
-      main {
-        padding-top: 100px;
       }
       section {
         padding-top: 20px;
@@ -86,18 +84,16 @@
         color: #fff;
         border: transparent;
         border-radius: 2px;
-        background-color: #0078e7;
+        background-color: #4568dc;
         cursor: pointer;
         user-select: none;
-      }
-      .btn:hover {
-        background-image: linear-gradient(transparent,rgba(0,0,0,.05) 40%,rgba(0,0,0,.1));
       }
       .btn-active {
         box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset, 0 0 6px rgba(0,0,0,.2) inset;
       }
       .video {
-        min-height: 320px;
+        min-height: 300px;
+        padding: 0;
       }
       .video-responsive {
         position: relative;
@@ -158,9 +154,9 @@
 &lt;/div&gt;
 </code></pre>
           <p>Init plugin</p>
-  <pre><code>var modal = new Modal('#default');
-  modal.open();
-  </code></pre>
+<pre><code>var modal = new Modal('#default');
+modal.open();
+</code></pre>
         </div>
       </section>
       <section>
@@ -288,7 +284,7 @@
     </div>
 
     <div class="modal" id="video" role="dialog" aria-labelledby="youtube">
-      <div class="modal__dialog has-center">
+      <div class="modal__dialog modal__dialog--lg has-center">
         <div class="modal__content">
           <div class="modal__header">
             <div class="modal__title">Modal</div>
@@ -312,7 +308,7 @@
     }
 
     var trigger1 = document.querySelector('[data-trigger="#default"]');
-    var modal1 = new Modal(trigger1.dataset.trigger, config);
+    var modal1 = new Modal(trigger1.getAttribute('data-trigger'), config);
 
     trigger1.addEventListener('click', function() {
       modal1.open();
@@ -320,14 +316,14 @@
 
 
     var trigger2 = document.querySelector('[data-trigger="#vcenter"]');
-    var modal2 = new Modal(trigger2.dataset.trigger, config);
+    var modal2 = new Modal(trigger2.getAttribute('data-trigger'), config);
 
     trigger2.addEventListener('click', function() {
       modal2.open();
     });
 
     var trigger3 = document.querySelector('[data-trigger="#scrollcontent"]');
-    var modal3 = new Modal(trigger3.dataset.trigger, {
+    var modal3 = new Modal(trigger3.getAttribute('data-trigger'), {
       stickySelectors: ['header']
     });
 
@@ -336,7 +332,7 @@
     });
 
     var trigger4 = document.querySelector('[data-trigger="#noanimation"]');
-    var modal4 = new Modal(trigger4.dataset.trigger, {
+    var modal4 = new Modal(trigger4.getAttribute('data-trigger'), {
       stickySelectors: ['header'],
       animation: false
     });
@@ -345,9 +341,9 @@
       modal4.open();
     });
 
-    var iframe = '<div class="video-responsive"><iframe src="https://www.youtube.com/embed/cEq_qmrpNu4" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>';
+    var iframe = '<div class="video-responsive"><iframe width="560" height="315" src="https://www.youtube.com/embed/LXb3EKWsInQ" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>';
     var trigger5 = document.querySelector('[data-trigger="#video"]');
-    var modal5 = new Modal(trigger5.dataset.trigger, config);
+    var modal5 = new Modal(trigger5.getAttribute('data-trigger'), config);
     var modalBody = modal5.element.querySelector('.modal__body');
 
     modal5.element.addEventListener('showModal', function(e) {
