@@ -7,11 +7,15 @@
     <title>Modal</title>
     <link rel="stylesheet" href="modal.css" />
     <style>
+      html {
+        font-size: 14px;
+      }
       body {
-        font-family: Segoe UI;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droid Sans", "Helvetica Neue", Aria, sans-serif;
         margin: 0;
-        padding-top: 100px;
+        padding-top: 5rem;
         line-height: 1.5;
+        font-size: 1rem;
         color: #555;
         background-color: #fff;
       }
@@ -20,26 +24,32 @@
         top: 0;
         left: 0;
         right: 0;
-        text-align: right;
         color: #fff;
         background-color: royalblue;
         background: linear-gradient(to right, #4568dc, #b06ab3);
-        padding: 20px;
+        padding: 1.25rem 0;
       }
       .container {
         max-width: 800px;
         margin: 0 auto;
-        padding-right: 20px;
-        padding-left: 20px;
+        padding-right: 1.25rem;
+        padding-left: 1.25rem;
+      }
+      h1 {
+        margin-top: 0;
+        margin-bottom: 0;
+        font-size: 1.5rem;
+        font-weight: 500;
+        line-height: 1;
       }
       section {
-        padding-top: 20px;
-        padding-bottom: 20px;
+        padding-top: 1.25rem;
+        padding-bottom: 1.25rem;
       }
       section h2 {
         margin-top: 0;
-        padding-bottom: 10px;
-        font-size: 28px;
+        padding-bottom: 0.6rem;
+        font-size: 1.75rem;
         border-bottom: 1px solid #ddd;
       }
       pre, code {
@@ -68,10 +78,12 @@
         margin: 0;
         padding-left: 0;
         list-style: none;
+        font-size: 0;
       }
       .example-list li {
         display: inline-block;
-        margin: 3px;
+        margin: 0.18rem;
+        font-size: 1rem;
       }
       .btn {
         display: inline-block;
@@ -83,7 +95,7 @@
         text-decoration: none;
         color: #fff;
         border: transparent;
-        border-radius: 2px;
+        border-radius: 0.125rem;
         background-color: #4568dc;
         cursor: pointer;
         user-select: none;
@@ -109,11 +121,25 @@
         height: 100%;
         border: 0;
       }
+      @media (min-width: 480px) {
+        html {
+          font-size: 16px;
+        }
+      }
+      @media (min-width: 768px) {
+        h1 {
+          font-size: 2rem;
+        }
+      }
     </style>
   </head>
 
   <body>
-    <header>fixed element</header>
+    <header>
+      <div class="container">
+        <h1>Glory modal plugin</h1>
+      </div>
+    </header>
     <main>
       <section class="examples">
         <div class="container">
@@ -132,67 +158,31 @@
         <div class="container">
           <h2 id="usage">Usage</h2>
           <p>HTML markup</p>
-<pre><code>&lt;div class="modal" id="default" role="dialog" aria-labelledby="modalDefault"&gt;
+<pre><code>&lt;div class="modal" id="exampleModal" role="dialog" aria-labelledby="Modal"&gt;
   &lt;div class="modal__dialog"&gt;
     &lt;div class="modal__content"&gt;
-  &lt;div class="modal__header"&gt;
-    &lt;div class="modal__title"&gt;Modal&lt;/div&gt;
-    &lt;button type="button" class="modal__close" data-modal="dismiss"&gt;
-        &lt;svg width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"&gt;
-        &lt;path d="M6.34 6.34l11.32 11.32m-11.32 0L17.66 6.34"/&gt;
-      &lt;/svg&gt;
-    &lt;/button&gt;
-  &lt;/div&gt;
-  &lt;div class="modal__body"&gt;
-    Some content
-  &lt;/div&gt;
-  &lt;div class="modal__footer"&gt;
-    &lt;button data-modal="dismiss"&gt;Close&lt;/button&gt;
-  &lt;/div&gt;
+      &lt;div class="modal__header"&gt;
+        &lt;div class="modal__title"&gt;Modal&lt;/div&gt;
+        &lt;button type="button" class="modal__close" data-modal="dismiss"&gt;
+            &lt;svg width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"&gt;&lt;path d="M6.34 6.34l11.32 11.32m-11.32 0L17.66 6.34"/&gt;
+          &lt;/svg&gt;
+        &lt;/button&gt;
+      &lt;/div&gt;
+      &lt;div class="modal__body"&gt;
+        Some content
+      &lt;/div&gt;
+      &lt;div class="modal__footer"&gt;
+        &lt;button data-modal="dismiss"&gt;Close&lt;/button&gt;
+      &lt;/div&gt;
     &lt;/div&gt;
   &lt;/div&gt;
 &lt;/div&gt;
 </code></pre>
+          <p>Include plugin styles</p>
+<pre><code>&lt;link rel="stylesheet" href="modal.css" /&gt;</code></pre>
           <p>Init plugin</p>
-<pre><code>var modal = new Modal('#default');
-modal.open();
-</code></pre>
-        </div>
-      </section>
-      <section>
-        <div class="container">
-          <h2 id="methods">Methods</h2>
-          <p>Public methods</p>
-          <ul>
-            <li><strong><code>.open()</code></strong> open modal</li>
-            <li><strong><code>.close()</code></strong> close modal</li>
-            <li><strong><code>.destroy()</code></strong> destroy instance</li>
-          </ul>
-        </div>
-      </section>
-      <section>
-        <div class="container">
-          <h2 id="options">Options</h2>
-          <p>Options and their default values</p>
-<pre><code>{
-  stickySelectors: [],
-  animation: true,
-  backdrop: true,
-  closeBackdrop: true,
-  keyboard: true
-}</code></pre>
-        </div>
-      </section>
-
-      <section>
-        <div class="container">
-          <h2 id="events">Events</h2>
-          <p>Available events:<br>
-            <ul>
-              <li><code>showModal</code> triggered after opening the window</li>
-              <li><code>hideModal</code> triggered after the window is closed</li>
-            </ul>
-          </p>
+<pre><code>var modal = new Modal('#exampleModal');</code></pre>
+          <a href="https://github.com/k-ivan/glory-modal/blob/master/README.md" class="btn">Documentation</a>
         </div>
       </section>
     </main>
