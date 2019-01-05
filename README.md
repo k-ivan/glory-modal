@@ -7,7 +7,7 @@
 Modal dialog plugin inspired by <a href="https://getbootstrap.com/">Bootstrap</a> modal dialogs, written in pure JavaScript.
 
 ## Demo
-[Demo](https://k-ivan.github.io/modal-plugin/)
+[Demo](https://k-ivan.github.io/glory-modal/)
 
 ## Installation
 
