@@ -354,7 +354,7 @@ class Modal {
     }
   }
 
-  unobserve() {
+  destroy() {
     if (!this._modal) return;
 
     // If backdrop and modal active

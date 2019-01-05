@@ -8,7 +8,7 @@ const paths = {
   srcjs: './src/js',
   dist: './dist'
 }
-const banner = `Modal-plugin v${pkg.version} | MIT License | https://github.com/k-ivan/modal-plugin`;
+const banner = `Glory-modal plugin v${pkg.version} | MIT License | https://github.com/k-ivan/glory-modal`;
 
 module.exports = (env, arg) => {
   return {
