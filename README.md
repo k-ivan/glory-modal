@@ -1,7 +1,7 @@
 # Glory-modal
 <p>
   <a href="https://www.npmjs.com/package/glory-modal"><img src="https://img.shields.io/npm/v/glory-modal.svg"></a>
-  <a href="https://www.npmjs.com/package/glory-modal"><img src="https://img.shields.io/npm/l/glory-modal.svg"></a>
+  <a href="https://www.npmjs.com/package/glory-modal"><img src="https://img.shields.io/github/license/k-ivan/glory-modal.svg"></a>
   <a href="https://www.npmjs.com/package/glory-modal"><img src="https://img.shields.io/npm/dt/glory-modal.svg"></a>
 </p>
 Modal dialog plugin inspired by <a href="https://getbootstrap.com/">Bootstrap</a> modal dialogs, written in pure JavaScript.
