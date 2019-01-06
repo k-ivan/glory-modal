@@ -132,7 +132,7 @@
       }
       @media (min-width: 940px) {
         .video {
-          min-height: 510px;
+          min-height: 520px;
         }
       }
     </style>
@@ -224,6 +224,7 @@
             </button>
           </div>
           <div class="modal__body">
+              <button class="multi2">Open</button>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore eos numquam soluta harum, id labore facilis, quidem ipsam, ab ipsum quisquam magni vero nam reiciendis magnam? Nobis nemo repellendus animi in nulla facere nostrum tenetur voluptas placeat dolores a ad provident deserunt odio incidunt molestias voluptates adipisci ipsam deleniti odit porro asperiores, optio aut modi? Suscipit molestiae fugit natus aperiam! Fugit praesentium modi animi voluptatibus cupiditate voluptates temporibus eaque, asperiores aspernatur doloribus atque non molestiae repellat assumenda. Quam facere labore optio voluptates necessitatibus sit accusamus ad? Rem suscipit quo et nostrum consequuntur magnam accusantium corporis alias, autem ipsa nisi facere sunt doloremque labore, quam dolore perferendis odit enim. Quisquam quae eum odio dignissimos nulla et hic sint natus dolor debitis sequi veniam itaque quos fuga velit repellat ipsa aliquid inventore.
           </div>
           <div class="modal__footer">
@@ -267,6 +268,7 @@
           </div>
           <div class="modal__body">
             <p>
+              <button class="multi">Open</button>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae, provident incidunt iusto maiores amet quae iure, architecto nostrum, commodi accusantium corporis molestiae nesciunt. Obcaecati in a mollitia iusto neque! Temporibus deleniti cupiditate rem exercitationem ex optio. Nam, doloribus quidem quasi cumque repellat quos perferendis nobis! Saepe, cumque unde facere, iste repellendus sit praesentium alias odit, molestias quae exercitationem fugit earum. Voluptatum in dolorem ipsum deleniti quisquam porro repudiandae. Iure ullam hic aliquid, omnis doloribus architecto in qui neque nesciunt voluptatum, error sit? Non omnis modi, sit reprehenderit, asperiores tempore consequuntur ipsam quaerat perferendis fuga accusamus voluptas similique atque id incidunt doloremque dolore cum fugit itaque blanditiis, vero aliquam at. Eveniet natus nobis aspernatur nihil alias voluptatum sapiente beatae autem asperiores.
             </p>
           </div>
@@ -331,8 +333,16 @@
       animation: false
     });
 
-    trigger4.addEventListener('click', function() {
+    trigger4.addEventListener('click', function(e) {
       modal4.open();
+    });
+    document.getElementsByClassName('multi')[0].addEventListener('click', () => {
+      modal2.element.style.zIndex = 9999;
+      modal2.open();
+    });
+    document.getElementsByClassName('multi2')[0].addEventListener('click', () => {
+      modal1.element.style.zIndex = 99999;
+      modal1.open();
     });
 
     var iframe = '<div class="video-responsive"><iframe width="560" height="315" src="https://www.youtube.com/embed/LXb3EKWsInQ" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>';
