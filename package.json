@@ -1,7 +1,7 @@
 {
   "name": "glory-modal",
   "version": "1.0.3",
-  "description": "",
+  "description": "Modal dialog plugin, written in pure JavaScript.",
   "main": "dist/modal.js",
   "scripts": {
     "dev": "webpack --mode development",
@@ -11,15 +11,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/k-ivan/modal-plugin.git"
+    "url": "git+https://github.com/k-ivan/glory-modal.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["modal", "glory-modal", "modal plugin"],
+  "author": "k-ivan",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/k-ivan/modal-plugin/issues"
+    "url": "https://github.com/k-ivan/glory-modal/issues"
   },
-  "homepage": "https://github.com/k-ivan/modal-plugin#readme",
+  "homepage": "https://github.com/k-ivan/glory-modal#readme",
   "devDependencies": {
     "@babel/core": "^7.2.2",
     "@babel/plugin-transform-object-assign": "^7.2.0",
