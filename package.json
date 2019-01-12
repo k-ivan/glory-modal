@@ -1,6 +1,6 @@
 {
   "name": "glory-modal",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Modal dialog plugin, written in pure JavaScript.",
   "main": "dist/modal.js",
   "scripts": {
@@ -13,7 +13,11 @@
     "type": "git",
     "url": "git+https://github.com/k-ivan/glory-modal.git"
   },
-  "keywords": ["modal", "glory-modal", "modal plugin"],
+  "keywords": [
+    "modal",
+    "glory-modal",
+    "modal plugin"
+  ],
   "author": "k-ivan",
   "license": "MIT",
   "bugs": {
