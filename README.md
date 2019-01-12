@@ -111,10 +111,10 @@ Plugin provides an event for show|close modal
 var elem = document.querySelector('#modal');
 var modal = new Modal(elem);
 
-elem.addEventListener('showModal', function(evt) {
+elem.addEventListener('modalOpen', function(evt) {
   console.log(evt)
 })
-elem.addEventListener('hideModal', function(evt) {
+elem.addEventListener('modalClose', function(evt) {
   console.log(evt)
 })
 ```

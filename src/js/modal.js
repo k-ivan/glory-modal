@@ -215,18 +215,18 @@ class Modal {
 
     this._scrollbarWidth = this._getScrollbarWidth();
 
-    const actualMargin = this._body.style['margin-right'];
-    const calculatedMargin = parseFloat(getComputedStyle(this._body)['margin-right']);
+    const actualMargin = this._body.style.marginRight;
+    const calculatedMargin = parseFloat(getComputedStyle(this._body).marginRight);
     this._body.setAttribute('data-modal-margin', actualMargin);
-    this._body.style['margin-right'] = `${calculatedMargin + this._scrollbarWidth}px`;
+    this._body.style.marginRight = `${calculatedMargin + this._scrollbarWidth}px`;
 
     this._settings.stickySelectors.forEach(selector => {
       this._stickySelectors = Array.prototype.slice.call(document.querySelectorAll(selector));
       this._stickySelectors.forEach(el => {
-        const actualMargin = el.style['margin-right'];
-        const calculatedMargin = parseFloat(getComputedStyle(el)['margin-right']);
+        const actualMargin = el.style.marginRight;
+        const calculatedMargin = parseFloat(getComputedStyle(el).marginRight);
         el.setAttribute('data-modal-margin', actualMargin);
-        el.style['margin-right'] = `${calculatedMargin + this._scrollbarWidth}px`;
+        el.style.marginRight = `${calculatedMargin + this._scrollbarWidth}px`;
       });
     });
   }
@@ -236,12 +236,12 @@ class Modal {
 
     if (!this._hasScrollbar) return;
 
-    this._body.style['margin-right'] = this._body.getAttribute('data-modal-margin') || '';
+    this._body.style.marginRight = this._body.getAttribute('data-modal-margin') || '';
     this._body.removeAttribute('data-modal-margin');
 
     if (this._stickySelectors && Array.isArray(this._stickySelectors)) {
       this._stickySelectors.forEach(el => {
-        el.style['margin-right'] = el.getAttribute('data-modal-margin') || '';
+        el.style.marginRight = el.getAttribute('data-modal-margin') || '';
         el.removeAttribute('data-modal-margin');
       });
     }
@@ -279,14 +279,13 @@ class Modal {
 
   _hideModal() {
     this._resetScrollOffset();
-    this._resetAdjustModal();
     this._modal.style.display = '';
     this._isTransitiong = false;
     if (this._focusableSave) {
       this._focusableSave.focus();
     }
 
-    Util.customTrigger('hideModal', this._modal);
+    Util.customTrigger('modalClose', this._modal);
   }
 
   open() {
@@ -323,13 +322,13 @@ class Modal {
         this._isTransitiong = false;
         this._resetAdjustModal();
         this._modal.focus();
-        Util.customTrigger('showModal', this._modal);
+        Util.customTrigger('modalOpen', this._modal);
       });
       Util.emulateTransitionEnd(this._modalDialog, duration);
     } else {
       this._isTransitiong = false;
       this._modal.focus();
-      Util.customTrigger('showModal', this._modal);
+      Util.customTrigger('modalOpen', this._modal);
     }
   }
 
@@ -345,7 +344,6 @@ class Modal {
     this._isTransitiong = true;
 
     if (this._settings.animation) {
-      this._adjustModal();
       const duration = Util.getTransitionDurationFromElement(this._modalDialog);
       Util.onceTransitionEnd(this._modalDialog, this._transitionEndEvent, this._hideModal.bind(this));
       Util.emulateTransitionEnd(this._modalDialog, duration);
