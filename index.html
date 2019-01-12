@@ -338,10 +338,10 @@
     var modal5 = new Modal(trigger5.getAttribute('data-trigger'), config);
     var modalBody = modal5.element.querySelector('.modal__body');
 
-    modal5.element.addEventListener('showModal', function(e) {
+    modal5.element.addEventListener('modalOpen', function(e) {
       modalBody.innerHTML = iframe;
     });
-    modal5.element.addEventListener('hideModal', function(e) {
+    modal5.element.addEventListener('modalClose', function(e) {
       modalBody.innerHTML = '';
     });
 
