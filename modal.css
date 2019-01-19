@@ -1,3 +1,7 @@
+body {
+  box-sizing: border-box;
+}
+
 body.modal-open {
   overflow-y: hidden;
   -webkit-overflow-scrolling: auto;
