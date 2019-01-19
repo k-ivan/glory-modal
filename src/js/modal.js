@@ -215,17 +215,17 @@ class Modal {
 
     this._scrollbarWidth = this._getScrollbarWidth();
 
-    const actualMargin = this._body.style.marginRight;
-    const calculatedMargin = parseFloat(getComputedStyle(this._body).marginRight);
-    this._body.setAttribute('data-modal-margin', actualMargin);
-    this._body.style.marginRight = `${calculatedMargin + this._scrollbarWidth}px`;
+    const actualPadding = this._body.style.paddingRight;
+    const calculatedPadding = parseFloat(getComputedStyle(this._body).paddingRight);
+    actualPadding && this._body.setAttribute('data-modal-padding', actualPadding);
+    this._body.style.paddingRight = `${calculatedPadding + this._scrollbarWidth}px`;
 
     this._settings.stickySelectors.forEach(selector => {
       this._stickySelectors = Array.prototype.slice.call(document.querySelectorAll(selector));
       this._stickySelectors.forEach(el => {
         const actualMargin = el.style.marginRight;
         const calculatedMargin = parseFloat(getComputedStyle(el).marginRight);
-        el.setAttribute('data-modal-margin', actualMargin);
+        actualMargin && el.setAttribute('data-modal-margin', actualMargin);
         el.style.marginRight = `${calculatedMargin + this._scrollbarWidth}px`;
       });
     });
@@ -236,8 +236,8 @@ class Modal {
 
     if (!this._hasScrollbar) return;
 
-    this._body.style.marginRight = this._body.getAttribute('data-modal-margin') || '';
-    this._body.removeAttribute('data-modal-margin');
+    this._body.style.paddingRight = this._body.getAttribute('data-modal-padding') || '';
+    this._body.removeAttribute('data-modal-padding');
 
     if (this._stickySelectors && Array.isArray(this._stickySelectors)) {
       this._stickySelectors.forEach(el => {
