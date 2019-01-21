@@ -13,12 +13,12 @@ const banner = `Glory-modal plugin v${pkg.version} | MIT License | https://githu
 module.exports = (env, arg) => {
   return {
     entry: [
-      `${paths.srccss}/modal.scss`,
-      `${paths.srcjs}/modal.js`
+      `${paths.srccss}/gmodal.scss`,
+      `${paths.srcjs}/gmodal.js`
     ],
     output: {
-      filename: 'modal.js',
-      library: 'Modal',
+      filename: 'gmodal.js',
+      library: 'Gmodal',
       libraryTarget: 'umd',
       libraryExport: 'default',
       umdNamedDefine: true
@@ -75,7 +75,7 @@ module.exports = (env, arg) => {
         verbose: true
       }),
       new MiniCssExtractPlugin({
-        filename: 'modal.css'
+        filename: 'gmodal.css'
       }),
       new webpack.BannerPlugin({
         test: /\.js$/,

@@ -1,12 +1,12 @@
 body {
   box-sizing: border-box;
-  &.modal-open {
+  &.gmodal-open {
     overflow-y: hidden;
     -webkit-overflow-scrolling: auto;
   }
 }
 
-.modal-backdrop {
+.gmodal-backdrop {
   position: fixed;
   left: 0;
   top: 0;
@@ -24,7 +24,7 @@ body {
   }
 }
 
-.modal {
+.gmodal {
   display: none;
   position: fixed;
   left: 0;

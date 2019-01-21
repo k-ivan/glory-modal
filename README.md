@@ -20,29 +20,29 @@ or basic <a href="https://github.com/k-ivan/glory-modal/archive/master.zip">down
 ## Use
 Include the plugin styles
 ```html
-<link rel="stylesheet" href="modal.css">
+<link rel="stylesheet" href="gmodal.css">
 ```
 Or If you use SASS, you can import a sass source
 ```scss
-@import './node_modules/glory-modal/src/scss/modal.scss';
+@import './node_modules/glory-modal/src/scss/gmodal.scss';
 ```
 We also need a simple markup
 ```html
-<div class="modal" id="exampleModal" role="dialog" aria-labelledby="Modal">
-  <div class="modal__dialog">
-    <div class="modal__content">
-      <div class="modal__header">
-        <div class="modal__title">Modal</div>
-        <button type="button" class="modal__close" data-modal="dismiss">
+<div class="gmodal" id="exampleModal" role="dialog" aria-labelledby="Modal">
+  <div class="gmodal__dialog">
+    <div class="gmodal__content">
+      <div class="gmodal__header">
+        <div class="gmodal__title">Modal</div>
+        <button type="button" class="gmodal__close" data-gmodal="dismiss">
             <svg width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.34 6.34l11.32 11.32m-11.32 0L17.66 6.34"/>
           </svg>
         </button>
       </div>
-      <div class="modal__body">
+      <div class="gmodal__body">
         Some content
       </div>
-      <div class="modal__footer">
-        <button data-modal="dismiss">Close</button>
+      <div class="gmodal__footer">
+        <button data-gmodal="dismiss">Close</button>
       </div>
     </div>
   </div>
@@ -50,16 +50,16 @@ We also need a simple markup
 ```
 Add the plugin to the page
 ```html
-<script src="modal.js"></script>
+<script src="gmodal.js"></script>
 ```
 or if you are using a module bundler
 ```js
-import Modal from 'glory-modal';
+import Gmodal from 'glory-modal';
 ```
 
 Init plugin
 ```js
-var modal = new Modal('#exampleModal', {
+var modal = new Gmodal('#exampleModal', {
   stickySelectors: ['.fixed']
 });
 ```
@@ -67,7 +67,7 @@ var modal = new Modal('#exampleModal', {
 ## Options
 But we can also use advanced plugin options. Available options and their default values.
 ```js
-new Modal(elem, {
+new Gmodal(elem, {
   stickySelectors: [],
   animation: true,
   backdrop: true,
@@ -79,7 +79,8 @@ new Modal(elem, {
   selector or element
 
 `stickySelectors` (array)
-  array with selectors
+  array with selectors (fixed elements will also be margin-right, the fixed element must have an automatic width for the indent to work)
+
 
 `animation` (bool)
   modal animation
@@ -109,12 +110,12 @@ This method stops the plugin. To reinitialize, you need to call the constructor 
 Plugin provides an event for show|close modal
 ```js
 var elem = document.querySelector('#modal');
-var modal = new Modal(elem);
+var modal = new Gmodal(elem);
 
-elem.addEventListener('modalOpen', function(evt) {
+elem.addEventListener('gmodal:open', function(evt) {
   console.log(evt)
 })
-elem.addEventListener('modalClose', function(evt) {
+elem.addEventListener('gmodal:close', function(evt) {
   console.log(evt)
 })
 ```

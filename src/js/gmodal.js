@@ -1,17 +1,17 @@
 import Util from './util';
 
 const SELECTORS = {
-  modalDialog: '.modal__dialog',
-  modalContent: '.modal__content',
+  modalDialog: '.gmodal__dialog',
+  modalContent: '.gmodal__content',
   modalBody: '.modal__body',
-  modalDismiss: '[data-modal="dismiss"]'
+  modalDismiss: '[data-gmodal="dismiss"]'
 }
 
 const CLASSESS = {
-  open: 'modal-open',
+  open: 'gmodal-open',
   show: 'is-show',
   hasAnimate: 'has-animate',
-  backdrop: 'modal-backdrop'
+  backdrop: 'gmodal-backdrop'
 }
 
 const DEFAULTS = {
@@ -22,7 +22,7 @@ const DEFAULTS = {
   keyboard: true
 }
 
-class Modal {
+class Gmodal {
   constructor(el, options = {}) {
     if (!el) return false;
 
@@ -217,7 +217,7 @@ class Modal {
 
     const actualPadding = this._body.style.paddingRight;
     const calculatedPadding = parseFloat(getComputedStyle(this._body).paddingRight);
-    actualPadding && this._body.setAttribute('data-modal-padding', actualPadding);
+    actualPadding && this._body.setAttribute('data-gmodal-padding', actualPadding);
     this._body.style.paddingRight = `${calculatedPadding + this._scrollbarWidth}px`;
 
     this._settings.stickySelectors.forEach(selector => {
@@ -225,7 +225,7 @@ class Modal {
       this._stickySelectors.forEach(el => {
         const actualMargin = el.style.marginRight;
         const calculatedMargin = parseFloat(getComputedStyle(el).marginRight);
-        actualMargin && el.setAttribute('data-modal-margin', actualMargin);
+        actualMargin && el.setAttribute('data-gmodal-margin', actualMargin);
         el.style.marginRight = `${calculatedMargin + this._scrollbarWidth}px`;
       });
     });
@@ -236,13 +236,13 @@ class Modal {
 
     if (!this._hasScrollbar) return;
 
-    this._body.style.paddingRight = this._body.getAttribute('data-modal-padding') || '';
-    this._body.removeAttribute('data-modal-padding');
+    this._body.style.paddingRight = this._body.getAttribute('data-gmodal-padding') || '';
+    this._body.removeAttribute('data-gmodal-padding');
 
     if (this._stickySelectors && Array.isArray(this._stickySelectors)) {
       this._stickySelectors.forEach(el => {
-        el.style.marginRight = el.getAttribute('data-modal-margin') || '';
-        el.removeAttribute('data-modal-margin');
+        el.style.marginRight = el.getAttribute('data-gmodal-margin') || '';
+        el.removeAttribute('data-gmodal-margin');
       });
     }
   }
@@ -285,7 +285,7 @@ class Modal {
       this._focusableSave.focus();
     }
 
-    Util.customTrigger('modalClose', this._modal);
+    Util.customTrigger('gmodal:close', this._modal);
   }
 
   open() {
@@ -322,13 +322,13 @@ class Modal {
         this._isTransitiong = false;
         this._resetAdjustModal();
         this._modal.focus();
-        Util.customTrigger('modalOpen', this._modal);
+        Util.customTrigger('gmodal:open', this._modal);
       });
       Util.emulateTransitionEnd(this._modalDialog, duration);
     } else {
       this._isTransitiong = false;
       this._modal.focus();
-      Util.customTrigger('modalOpen', this._modal);
+      Util.customTrigger('gmodal:open', this._modal);
     }
   }
 
@@ -371,4 +371,4 @@ class Modal {
   }
 }
 
-export default Modal;
+export default Gmodal;
