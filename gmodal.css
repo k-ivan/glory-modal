@@ -2,12 +2,12 @@ body {
   box-sizing: border-box;
 }
 
-body.modal-open {
+body.gmodal-open {
   overflow-y: hidden;
   -webkit-overflow-scrolling: auto;
 }
 
-.modal-backdrop {
+.gmodal-backdrop {
   position: fixed;
   left: 0;
   top: 0;
@@ -17,17 +17,17 @@ body.modal-open {
   background-color: rgba(0, 0, 0, 0.3);
 }
 
-.modal-backdrop.has-animate {
+.gmodal-backdrop.has-animate {
   transition: opacity 0.15s linear;
   will-change: opacity;
   opacity: 0;
 }
 
-.modal-backdrop.has-animate.is-show {
+.gmodal-backdrop.has-animate.is-show {
   opacity: 1;
 }
 
-.modal {
+.gmodal {
   display: none;
   position: fixed;
   left: 0;
@@ -40,13 +40,13 @@ body.modal-open {
   outline: 0;
 }
 
-.modal *,
-.modal *::before,
-.modal *::after {
+.gmodal *,
+.gmodal *::before,
+.gmodal *::after {
   box-sizing: border-box;
 }
 
-.modal.has-animate .modal__dialog {
+.gmodal.has-animate .gmodal__dialog {
   will-change: transform, opacity;
   opacity: 0;
   -webkit-transform: translateY(50px);
@@ -56,36 +56,36 @@ body.modal-open {
   transition: opacity 0.15s linear, transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275), -webkit-transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.modal.has-animate.is-show .modal__dialog {
+.gmodal.has-animate.is-show .gmodal__dialog {
   opacity: 1;
   -webkit-transform: none;
           transform: none;
 }
 
 @media (min-width: 480px) {
-  .modal__dialog {
+  .gmodal__dialog {
     position: relative;
     max-width: 550px;
     width: 100%;
     margin: 30px auto;
     min-height: auto;
   }
-  .modal__dialog--lg {
+  .gmodal__dialog--lg {
     max-width: 940px;
   }
-  .modal__dialog.has-center {
+  .gmodal__dialog.has-center {
     display: flex;
     align-items: center;
     min-height: calc(100vh - 60px);
   }
-  .modal__dialog.has-center::before {
+  .gmodal__dialog.has-center::before {
     content: '';
     display: block;
     height: calc(100vh - 60px);
   }
 }
 
-.modal__content {
+.gmodal__content {
   position: absolute;
   min-height: 100vh;
   width: 100%;
@@ -93,7 +93,7 @@ body.modal-open {
 }
 
 @media (min-width: 480px) {
-  .modal__content {
+  .gmodal__content {
     position: relative;
     min-height: auto;
     border-radius: 3px;
@@ -101,27 +101,27 @@ body.modal-open {
   }
 }
 
-.modal__header, .modal__body, .modal__footer {
+.gmodal__header, .gmodal__body, .gmodal__footer {
   position: relative;
   padding: 15px;
 }
 
-.modal__header {
+.gmodal__header {
   display: flex;
   align-items: center;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.modal__footer {
+.gmodal__footer {
   border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.modal__title {
+.gmodal__title {
   font-size: 20px;
   font-weight: 600;
 }
 
-.modal__close {
+.gmodal__close {
   margin-left: auto;
   padding: 0;
   border: 0;
@@ -131,7 +131,7 @@ body.modal-open {
   transition: opacity .25s ease;
 }
 
-.modal__close svg {
+.gmodal__close svg {
   display: block;
   width: 28px;
   height: 28px;
@@ -139,7 +139,7 @@ body.modal-open {
   fill: none;
 }
 
-.modal__close:hover {
+.gmodal__close:hover {
   opacity: 1;
 }
 
