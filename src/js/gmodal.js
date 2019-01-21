@@ -3,7 +3,6 @@ import Util from './util';
 const SELECTORS = {
   modalDialog: '.gmodal__dialog',
   modalContent: '.gmodal__content',
-  modalBody: '.modal__body',
   modalDismiss: '[data-gmodal="dismiss"]'
 }
 
@@ -58,7 +57,6 @@ class Gmodal {
     this._body = document.body;
     this._modalDialog = this._modal.querySelector(SELECTORS.modalDialog);
     this._modalContent = this._modal.querySelector(SELECTORS.modalContent);
-    this._modalBody = this._modal.querySelector(SELECTORS.modalBody);
     this._modalDismiss = Array.prototype.slice.call(this._modal.querySelectorAll(SELECTORS.modalDismiss));
 
     this._scrollbarWidth = 0;
@@ -176,8 +174,6 @@ class Gmodal {
   }
 
   _getScrollbarWidth() {
-    // return window.innerWidth - document.documentElement.clientWidth;
-
     // Create the measurement node
     const scrollDiv = document.createElement('div');
     scrollDiv.style.cssText = `
