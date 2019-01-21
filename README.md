@@ -15,6 +15,12 @@ Modal dialog plugin inspired by <a href="https://getbootstrap.com/">Bootstrap</a
 ```sh
 npm i glory-modal
 ```
+
+or CDN (do not forget to replace `{version}` with the current version)
+```
+https://unpkg.com/glory-modal@{version}/dist/gmodal.css
+https://unpkg.com/glory-modal@{version}/dist/gmodal.js
+```
 or basic <a href="https://github.com/k-ivan/glory-modal/archive/master.zip">download</a>
 
 ## Use
@@ -26,7 +32,7 @@ Or If you use SASS, you can import a sass source
 ```scss
 @import './node_modules/glory-modal/src/scss/gmodal.scss';
 ```
-We also need a simple markup
+We will need a modal window markup
 ```html
 <div class="gmodal" id="exampleModal" role="dialog" aria-labelledby="Modal">
   <div class="gmodal__dialog">
@@ -59,9 +65,7 @@ import Gmodal from 'glory-modal';
 
 Init plugin
 ```js
-var modal = new Gmodal('#exampleModal', {
-  stickySelectors: ['.fixed']
-});
+var modal = new Gmodal('#exampleModal');
 ```
 
 ## Options
@@ -78,9 +82,8 @@ new Gmodal(elem, {
 `elem` (string | HTMLElement)
   selector or element
 
-`stickySelectors` (array)
-  array with selectors (fixed elements will also be margin-right, the fixed element must have an automatic width for the indent to work)
-
+`stickySelectors` (array of strings)
+  array with selectors (fixed elements will also be margin-right, the fixed element must have width auto for the indent to work)
 
 `animation` (bool)
   modal animation
@@ -107,7 +110,7 @@ This method close modal dialog.
 This method stops the plugin. To reinitialize, you need to call the constructor again.
 
 ## Events
-Plugin provides an event for show|close modal
+Plugin provides an event for open|close modal
 ```js
 var elem = document.querySelector('#modal');
 var modal = new Gmodal(elem);
