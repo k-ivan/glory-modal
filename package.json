@@ -1,8 +1,8 @@
 {
   "name": "glory-modal",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Modal dialog plugin, written in pure JavaScript.",
-  "main": "dist/modal.js",
+  "main": "dist/gmodal.js",
   "scripts": {
     "dev": "webpack --mode development",
     "build": "webpack --mode production",
