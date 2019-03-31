@@ -21,6 +21,20 @@ const DEFAULTS = {
   keyboard: true
 }
 
+const FOCUS_SELECTORS = [
+  'a[href]',
+  'area[href]',
+  'input:not([disabled]):not([type="hidden"]):not([aria-hidden])',
+  'select:not([disabled]):not([aria-hidden])',
+  'textarea:not([disabled]):not([aria-hidden])',
+  'button:not([disabled]):not([aria-hidden])',
+  'iframe',
+  'object',
+  'embed',
+  '[contenteditable]',
+  '[tabindex]:not([tabindex^="-"])'
+].join(',');
+
 class Gmodal {
   constructor(el, options = {}) {
     if (!el) return false;
@@ -115,19 +129,7 @@ class Gmodal {
 
   _focusable() {
     this._focusableEls = Array.prototype.slice.call(
-      this._modal.querySelectorAll(
-        `a[href],
-        area[href],
-        input:not([disabled]):not([type="hidden"]):not([aria-hidden]),
-        select:not([disabled]):not([aria-hidden]),
-        textarea:not([disabled]):not([aria-hidden]),
-        button:not([disabled]):not([aria-hidden]),
-        iframe,
-        object,
-        embed,
-        [contenteditable],
-        [tabindex]:not([tabindex^="-"])`
-      )
+      this._modal.querySelectorAll(FOCUS_SELECTORS)
     )
     this._focusableElFirst = this._focusableEls[0];
     this._focusableElLast = this._focusableEls[this._focusableEls.length - 1];
@@ -175,7 +177,7 @@ class Gmodal {
 
   _getScrollbarWidth() {
     // Create the measurement node
-    const scrollDiv = document.createElement('div');
+    const scrollDiv = document.createElement('div')
     scrollDiv.style.cssText = `
       width: 100px;
       height: 100px;
