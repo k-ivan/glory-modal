@@ -83,7 +83,7 @@ new Gmodal(elem, {
   selector or element
 
 `stickySelectors` (array of strings)
-  array with selectors (fixed elements will also be margin-right, the fixed element must have width auto for the indent to work)
+  array with selectors (fixed elements will also be margin-right)
 
 `animation` (bool)
   modal animation
