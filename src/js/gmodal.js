@@ -81,19 +81,21 @@ class Gmodal {
 
     this._focusable();
     this._attachEvents();
-
-    // if there is an option with floating selectors, then we make one a flat array
-    if (Array.isArray(this._settings.stickySelectors)) {
-      this._stickySelectors = this._settings.stickySelectors.reduce((accum, current) => {
-        const els = Array.prototype.slice.call(document.querySelectorAll(current));
-        accum.push(...els);
-        return accum;
-      }, []);
-    }
   }
 
   get element() {
     return this._modal;
+  }
+
+  _stickySelectorsArray() {
+    if (!Array.isArray(this._settings.stickySelectors)) return [];
+
+    // if there is an option with floating selectors, then we make one a flat array
+    return this._settings.stickySelectors.reduce((accum, current) => {
+      const els = Array.prototype.slice.call(document.querySelectorAll(current));
+      accum.push(...els);
+      return accum;
+    }, []);
   }
 
   _attachEvents() {
@@ -227,14 +229,12 @@ class Gmodal {
     actualPadding && this._body.setAttribute('data-gmodal-padding', actualPadding);
     this._body.style.paddingRight = `${calculatedPadding + this._scrollbarWidth}px`;
 
-    if (this._stickySelectors) {
-      this._stickySelectors.forEach(el => {
-        const actualMargin = el.style.marginRight;
-        const calculatedMargin = parseFloat(getComputedStyle(el).marginRight);
-        actualMargin && el.setAttribute('data-gmodal-margin', actualMargin);
-        el.style.marginRight = `${calculatedMargin + this._scrollbarWidth}px`;
-      });
-    }
+    this._stickySelectorsArray().forEach(el => {
+      const actualMargin = el.style.marginRight;
+      const calculatedMargin = parseFloat(getComputedStyle(el).marginRight);
+      actualMargin && el.setAttribute('data-gmodal-margin', actualMargin);
+      el.style.marginRight = `${calculatedMargin + this._scrollbarWidth}px`;
+    });
   }
 
   _resetScrollOffset() {
@@ -245,12 +245,10 @@ class Gmodal {
     this._body.style.paddingRight = this._body.getAttribute('data-gmodal-padding') || '';
     this._body.removeAttribute('data-gmodal-padding');
 
-    if (this._stickySelectors) {
-      this._stickySelectors.forEach(el => {
-        el.style.marginRight = el.getAttribute('data-gmodal-margin') || '';
-        el.removeAttribute('data-gmodal-margin');
-      });
-    }
+    this._stickySelectorsArray().forEach(el => {
+      el.style.marginRight = el.getAttribute('data-gmodal-margin') || '';
+      el.removeAttribute('data-gmodal-margin');
+    });
   }
 
   _adjustModal() {
