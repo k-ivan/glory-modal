@@ -105,7 +105,6 @@ class Gmodal {
       this.close();
     };
     this._clickModal = e => {
-      e.preventDefault();
       if (!this._modalContent.contains(e.target)) {
         this.close();
       }

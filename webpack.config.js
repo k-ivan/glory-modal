@@ -66,7 +66,7 @@ module.exports = (env, arg) => {
       contentBase: path.join(__dirname, paths.dist),
       compress: true,
       overlay: true,
-      port: 8080
+      port: 8088
     },
     devtool: arg.mode === 'development' ? 'eval-source-map' : false,
     plugins: [
