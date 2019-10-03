@@ -18,8 +18,8 @@ npm i glory-modal
 
 or CDN (do not forget to replace `{version}` with the current version)
 ```
-https://unpkg.com/glory-modal@{version}/dist/gmodal.css
-https://unpkg.com/glory-modal@{version}/dist/gmodal.js
+https://unpkg.com/glory-modal@latest/dist/gmodal.css
+https://unpkg.com/glory-modal@latest/dist/gmodal.js
 ```
 or basic <a href="https://github.com/k-ivan/glory-modal/archive/master.zip">download</a>
 
