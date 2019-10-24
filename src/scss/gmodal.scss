@@ -61,8 +61,10 @@ body {
       position: relative;
       max-width: 550px;
       width: 100%;
-      margin: 30px auto;
       min-height: auto;
+      margin: 30px auto;
+      padding-right: 15px;
+      padding-left: 15px;
       &--lg {
         max-width: 940px;
       }

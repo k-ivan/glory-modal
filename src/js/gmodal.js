@@ -67,6 +67,10 @@ class Gmodal {
     this._init();
   }
 
+  get element() {
+    return this._modal;
+  }
+
   _init() {
     this._body = document.body;
     this._modalDialog = this._modal.querySelector(SELECTORS.modalDialog);
@@ -79,12 +83,21 @@ class Gmodal {
       this._modal.classList.add(CLASSESS.hasAnimate);
     }
 
+    this._observerCallback = this._observerCallback.bind(this);
+    this._observer = new MutationObserver(this._observerCallback);
+    this._observer.observe(this._modal, {
+      childList: true,
+      subtree: true
+    });
+
     this._focusable();
     this._attachEvents();
   }
 
-  get element() {
-    return this._modal;
+  _observerCallback(mutations) {
+    const mutationRecord = mutations[0]
+    const hasRecords = mutationRecord.addedNodes.length || mutationRecord.removedNodes.length;
+    hasRecords && this._focusable();
   }
 
   _stickySelectorsArray() {
@@ -357,6 +370,8 @@ class Gmodal {
 
   destroy() {
     if (!this._modal) return;
+
+    this._observer && this._observer.disconnect();
 
     // If backdrop and modal active
     if (this._backdrop && this._backdrop.parentNode) {
