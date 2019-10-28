@@ -90,7 +90,6 @@ class Gmodal {
       subtree: true
     });
 
-    this._focusable();
     this._attachEvents();
   }
 
@@ -154,6 +153,8 @@ class Gmodal {
     this._focusableEls = Array.prototype.slice.call(
       this._modal.querySelectorAll(FOCUS_SELECTORS)
     )
+      .filter(el => Util.isVisible(el));
+
     this._focusableElFirst = this._focusableEls[0];
     this._focusableElLast = this._focusableEls[this._focusableEls.length - 1];
   }
@@ -337,12 +338,14 @@ class Gmodal {
       Util.onceTransitionEnd(this._modalDialog, this._transitionEndEvent, () => {
         this._isTransitiong = false;
         this._resetAdjustModal();
+        this._focusable();
         this._modal.focus();
         Util.customTrigger('gmodal:open', this._modal);
       });
       Util.emulateTransitionEnd(this._modalDialog, duration);
     } else {
       this._isTransitiong = false;
+      this._focusable();
       this._modal.focus();
       Util.customTrigger('gmodal:open', this._modal);
     }

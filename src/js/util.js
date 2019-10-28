@@ -1,4 +1,11 @@
 export default {
+  isVisible (el) {
+    if (el.style.display === 'none') {
+      return false;
+    }
+    const rect = el.getBoundingClientRect();
+    return (rect && rect.width > 0 && rect.height > 0);
+  },
   emulateTransitionEnd(el, duration = 150) {
     let called = false;
     const transitionEnd = this.transitionEnd();
