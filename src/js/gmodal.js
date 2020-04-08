@@ -85,9 +85,10 @@ class Gmodal {
 
     this._observerCallback = this._observerCallback.bind(this);
     this._observer = new MutationObserver(this._observerCallback);
-    this._observer.observe(this._modal, {
+    this._observer.observe(this._modalContent, {
       childList: true,
-      subtree: true
+      subtree: true,
+      attributes: true
     });
 
     this._attachEvents();
@@ -95,7 +96,11 @@ class Gmodal {
 
   _observerCallback(mutations) {
     const mutationRecord = mutations[0]
-    const hasRecords = mutationRecord.addedNodes.length || mutationRecord.removedNodes.length;
+    console.log(mutationRecord);
+
+    const hasRecords = mutationRecord.addedNodes.length ||
+      mutationRecord.removedNodes.length ||
+      mutationRecord.type === 'attributes';
     hasRecords && this._focusable();
   }
 
