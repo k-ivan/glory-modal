@@ -96,11 +96,11 @@ class Gmodal {
 
   _observerCallback(mutations) {
     const mutationRecord = mutations[0]
-    console.log(mutationRecord);
-
-    const hasRecords = mutationRecord.addedNodes.length ||
+    const hasRecords =
+      mutationRecord.addedNodes.length ||
       mutationRecord.removedNodes.length ||
       mutationRecord.type === 'attributes';
+
     hasRecords && this._focusable();
   }
 
