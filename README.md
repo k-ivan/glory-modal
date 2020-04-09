@@ -35,8 +35,8 @@ Or If you use SASS, you can import a sass source
 We will need a modal window markup
 ```html
 <div class="gmodal" id="exampleModal" role="dialog" aria-labelledby="Modal">
-  <div class="gmodal__dialog">
-    <div class="gmodal__content">
+  <div class="gmodal__container">
+    <div class="gmodal__dialog">
       <div class="gmodal__header">
         <div class="gmodal__title">Modal</div>
         <button type="button" class="gmodal__close" data-gmodal="dismiss">

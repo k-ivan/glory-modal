@@ -1,8 +1,8 @@
 import Util from './util';
 
 const SELECTORS = {
+  modalContainer: '.gmodal__container',
   modalDialog: '.gmodal__dialog',
-  modalContent: '.gmodal__content',
   modalDismiss: '[data-gmodal="dismiss"]'
 }
 
@@ -73,8 +73,8 @@ class Gmodal {
 
   _init() {
     this._body = document.body;
+    this._modalContainer = this._modal.querySelector(SELECTORS.modalContainer);
     this._modalDialog = this._modal.querySelector(SELECTORS.modalDialog);
-    this._modalContent = this._modal.querySelector(SELECTORS.modalContent);
     this._modalDismiss = Array.prototype.slice.call(this._modal.querySelectorAll(SELECTORS.modalDismiss));
 
     this._scrollbarWidth = 0;
@@ -85,7 +85,7 @@ class Gmodal {
 
     this._observerCallback = this._observerCallback.bind(this);
     this._observer = new MutationObserver(this._observerCallback);
-    this._observer.observe(this._modalContent, {
+    this._observer.observe(this._modalDialog, {
       childList: true,
       subtree: true,
       attributes: true
@@ -122,7 +122,7 @@ class Gmodal {
       this.close();
     };
     this._clickModal = e => {
-      if (!this._modalContent.contains(e.target)) {
+      if (!this._modalDialog.contains(e.target)) {
         this.close();
       }
     };
@@ -338,16 +338,16 @@ class Gmodal {
     if (this._settings.animation) {
       this._adjustModal();
 
-      const duration = Util.getTransitionDurationFromElement(this._modalDialog);
+      const duration = Util.getTransitionDurationFromElement(this._modalContainer);
 
-      Util.onceTransitionEnd(this._modalDialog, this._transitionEndEvent, () => {
+      Util.onceTransitionEnd(this._modalContainer, this._transitionEndEvent, () => {
         this._isTransitiong = false;
         this._resetAdjustModal();
         this._focusable();
         this._modal.focus();
         Util.customTrigger('gmodal:open', this._modal);
       });
-      Util.emulateTransitionEnd(this._modalDialog, duration);
+      Util.emulateTransitionEnd(this._modalContainer, duration);
     } else {
       this._isTransitiong = false;
       this._focusable();
@@ -368,9 +368,9 @@ class Gmodal {
     this._isTransitiong = true;
 
     if (this._settings.animation) {
-      const duration = Util.getTransitionDurationFromElement(this._modalDialog);
-      Util.onceTransitionEnd(this._modalDialog, this._transitionEndEvent, this._hideModal.bind(this));
-      Util.emulateTransitionEnd(this._modalDialog, duration);
+      const duration = Util.getTransitionDurationFromElement(this._modalContainer);
+      Util.onceTransitionEnd(this._modalContainer, this._transitionEndEvent, this._hideModal.bind(this));
+      Util.emulateTransitionEnd(this._modalContainer, duration);
     } else {
       this._hideModal();
     }
