@@ -299,10 +299,12 @@ class Gmodal {
     if (this._settings.backdrop) {
       this._backdrop = this._createBackdrop(this);
     }
+    Util.customTrigger('gmodal:beforeopen', this._modal);
     this._modal.style.display = 'block';
 
     this._isTransitiong = true;
     this._modal.scrollTop = 0;
+
 
     setTimeout(() => {
       if (this._backdrop) {
@@ -337,6 +339,7 @@ class Gmodal {
 
     if (!this._isOpen || this._isTransitiong) return;
 
+    Util.customTrigger('gmodal:beforeclose', this._modal);
     this._modal.classList.remove(CLASSESS.show);
     this._hideBackdrop();
 

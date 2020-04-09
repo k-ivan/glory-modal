@@ -115,7 +115,13 @@ Plugin provides an event for open|close modal
 var elem = document.querySelector('#modal');
 var modal = new Gmodal(elem);
 
+elem.addEventListener('gmodal:beforeopen', function(evt) {
+  console.log(evt)
+})
 elem.addEventListener('gmodal:open', function(evt) {
+  console.log(evt)
+})
+elem.addEventListener('gmodal:beforeclose', function(evt) {
   console.log(evt)
 })
 elem.addEventListener('gmodal:close', function(evt) {
