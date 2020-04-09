@@ -1,11 +1,36 @@
 export default {
-  isVisible (el) {
+  checkScrollbar() {
+    return window.innerWidth > document.documentElement.clientWidth;
+  },
+
+  getScrollbarWidth() {
+    // Create the measurement node
+    const scrollDiv = document.createElement('div')
+    scrollDiv.style.cssText = `
+      width: 100px;
+      height: 100px;
+      overflow: scroll;
+      position: absolute;
+      top: -9999px;
+    `;
+    document.body.appendChild(scrollDiv);
+
+    // Get the scrollbar width
+    const scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth;
+
+    // Delete the DIV
+    document.body.removeChild(scrollDiv);
+    return scrollbarWidth;
+  },
+
+  isVisible(el) {
     if (el.style.display === 'none') {
       return false;
     }
     const rect = el.getBoundingClientRect();
     return (rect && rect.width > 0 && rect.height > 0);
   },
+
   emulateTransitionEnd(el, duration = 150) {
     let called = false;
     const transitionEnd = this.transitionEnd();

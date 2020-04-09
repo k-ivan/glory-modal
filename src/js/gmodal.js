@@ -200,30 +200,6 @@ class Gmodal {
     }
   }
 
-  _checkScrollbar() {
-    return window.innerWidth > document.documentElement.clientWidth;
-  }
-
-  _getScrollbarWidth() {
-    // Create the measurement node
-    const scrollDiv = document.createElement('div')
-    scrollDiv.style.cssText = `
-      width: 100px;
-      height: 100px;
-      overflow: scroll;
-      position: absolute;
-      top: -9999px;
-    `;
-    document.body.appendChild(scrollDiv);
-
-    // Get the scrollbar width
-    const scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth;
-
-    // Delete the DIV
-    document.body.removeChild(scrollDiv);
-    return scrollbarWidth;
-  }
-
   _createBackdrop() {
     const backdrop = document.createElement('div');
     backdrop.className = CLASSESS.backdrop;
@@ -235,12 +211,12 @@ class Gmodal {
   }
 
   _setScrollOffset() {
-    this._hasScrollbar = this._checkScrollbar();
+    this._hasScrollbar = Util.checkScrollbar();
     this._body.classList.add(CLASSESS.open);
 
     if (!this._hasScrollbar) return;
 
-    this._scrollbarWidth = this._getScrollbarWidth();
+    this._scrollbarWidth = Util.getScrollbarWidth();
 
     const actualPadding = this._body.style.paddingRight;
     const calculatedPadding = parseFloat(getComputedStyle(this._body).paddingRight);
@@ -270,7 +246,7 @@ class Gmodal {
   }
 
   _adjustModal() {
-    this._scrollbarWidth = this._getScrollbarWidth();
+    this._scrollbarWidth = Util.getScrollbarWidth();
     this._modal.style.overflow = 'hidden';
     this._modal.style.marginRight = `${this._scrollbarWidth}px`;
   }
