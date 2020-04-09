@@ -152,11 +152,36 @@
           transform: rotate(360deg)
         }
       }
+
+      #video .gmodal__container {
+        max-width: 100%;
+        padding-right: 15px;
+        padding-left: 15px;
+      }
+      #video .gmodal__container.has-center {
+        display: flex;
+        align-items: center;
+        min-height: calc(100vh - 60px);
+      }
+
+      #video .gmodal__dialog {
+        position: relative;
+        width: calc(75vh * 1.77);
+        max-height: 75vh;
+        min-height: auto;
+        margin: auto;
+        background-color: #333;
+      }
+      #video .gmodal__body {
+        padding: 0;
+        overflow: hidden;
+      }
       .video-responsive {
         position: relative;
         max-width: 100%;
         height: 0;
         padding-top: 56.25%;
+        overflow: hidden;
       }
       .video-responsive iframe {
         position: absolute;
@@ -174,11 +199,6 @@
       @media (min-width: 768px) {
         h1 {
           font-size: 2rem;
-        }
-      }
-      @media (min-width: 940px) {
-        .video {
-          min-height: 520px;
         }
       }
     </style>
@@ -209,8 +229,8 @@
           <h2 id="usage">Usage</h2>
           <p>HTML markup</p>
 <pre><code>&lt;div class="gmodal" id="exampleModal" role="dialog" aria-labelledby="Modal"&gt;
-  &lt;div class="gmodal__dialog"&gt;
-    &lt;div class="gmodal__content"&gt;
+  &lt;div class="gmodal__container"&gt;
+    &lt;div class="gmodal__dialog"&gt;
       &lt;div class="gmodal__header"&gt;
         &lt;div class="gmodal__title"&gt;Modal&lt;/div&gt;
         &lt;button type="button" class="gmodal__close" data-gmodal="dismiss"&gt;
@@ -238,8 +258,8 @@
     </main>
 
     <div class="gmodal" id="default" role="dialog" aria-labelledby="modalDefault">
-      <div class="gmodal__dialog">
-        <div class="gmodal__content">
+      <div class="gmodal__container">
+        <div class="gmodal__dialog">
           <div class="gmodal__header">
             <div class="gmodal__title">Modal</div>
             <button type="button" class="gmodal__close" data-gmodal="dismiss">
@@ -259,8 +279,8 @@
     </div>
 
     <div class="gmodal" id="vcenter" role="dialog" aria-labelledby="Verttical center">
-      <div class="gmodal__dialog has-center">
-        <div class="gmodal__content">
+      <div class="gmodal__container has-center">
+        <div class="gmodal__dialog">
           <div class="gmodal__header">
             <div class="gmodal__title">Modal</div>
             <button type="button" class="gmodal__close" data-gmodal="dismiss">
@@ -271,6 +291,7 @@
           </div>
           <div class="gmodal__body">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore eos numquam soluta harum, id labore facilis, quidem ipsam, ab ipsum quisquam magni vero nam reiciendis magnam? Nobis nemo repellendus animi in nulla facere nostrum tenetur voluptas placeat dolores a ad provident deserunt odio incidunt molestias voluptates adipisci ipsam deleniti odit porro asperiores, optio aut modi? Suscipit molestiae fugit natus aperiam! Fugit praesentium modi animi voluptatibus cupiditate voluptates temporibus eaque, asperiores aspernatur doloribus atque non molestiae repellat assumenda. Quam facere labore optio voluptates necessitatibus sit accusamus ad? Rem suscipit quo et nostrum consequuntur magnam accusantium corporis alias, autem ipsa nisi facere sunt doloremque labore, quam dolore perferendis odit enim. Quisquam quae eum odio dignissimos nulla et hic sint natus dolor debitis sequi veniam itaque quos fuga velit repellat ipsa aliquid inventore.
+            <button onclick="this.closest('.gmodal__dialog').querySelector('.gmodal__footer button').hidden = true">attribute changes</button>
           </div>
           <div class="gmodal__footer">
             <button data-gmodal="dismiss">Close</button>
@@ -280,8 +301,8 @@
     </div>
 
     <div class="gmodal" id="scrollcontent" role="dialog" aria-labelledby="scroll content">
-      <div class="gmodal__dialog has-center">
-        <div class="gmodal__content">
+      <div class="gmodal__container has-center">
+        <div class="gmodal__dialog">
           <div class="gmodal__header">
             <div class="gmodal__title">Modal</div>
             <button type="button" class="gmodal__close" data-gmodal="dismiss">
@@ -301,8 +322,8 @@
     </div>
 
     <div class="gmodal" id="noanimation" role="dialog" aria-labelledby="Animation disable">
-      <div class="gmodal__dialog has-center">
-        <div class="gmodal__content">
+      <div class="gmodal__container has-center">
+        <div class="gmodal__dialog">
           <div class="gmodal__header">
             <div class="gmodal__title">Modal</div>
             <button type="button" class="gmodal__close" data-gmodal="dismiss">
@@ -322,17 +343,13 @@
     </div>
 
     <div class="gmodal" id="video" role="dialog" aria-labelledby="youtube">
-      <div class="gmodal__dialog gmodal__dialog--lg has-center">
-        <div class="gmodal__content">
-          <div class="gmodal__header">
-            <div class="gmodal__title">Modal</div>
-            <button type="button" class="gmodal__close" data-gmodal="dismiss">
-              <svg width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M6.34 6.34l11.32 11.32m-11.32 0L17.66 6.34"/>
-              </svg>
-            </button>
+      <div class="gmodal__container has-center">
+        <div class="gmodal__dialog">
+          <div class="gmodal__body">
+            <div class="video-responsive">
+              <iframe width="560" height="315" data-src="https://www.youtube.com/embed/LXb3EKWsInQ?autoplay=1" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
           </div>
-          <div class="gmodal__body video"></div>
         </div>
       </div>
     </div>
@@ -378,28 +395,23 @@
       modal4.open();
     });
 
-    var iframe = '<div class="video-responsive"><iframe width="560" height="315" src="https://www.youtube.com/embed/LXb3EKWsInQ" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>';
-
-    var loader =
-    '<svg class="loading" width="100" height="100" viewBox="0 0 100 100">'+
-      '<defs>'+
-        '<linearGradient id="grad" x1="0" y1="50%" x2="100%" y2="50%" gradientUnits="userSpaceOnUse" gradientTransform="rotate(45, 50, 50)">'+
-          '<stop class="colors" offset="0%" stop-color="#4568dc"></stop><stop class="colors" offset="100%" stop-color="#b06ab3"></stop>'+
-        '</linearGradient>'+
-      '</defs>'+
-      '<circle class="path" fill="none" stroke="url(#grad)" stroke-width="8" stroke-linecap="round" cx="50" cy="50" r="40"></circle>'+
-    '</svg>';
-
     var trigger5 = document.querySelector('[data-trigger="#video"]');
     var modal5 = new Gmodal(trigger5.getAttribute('data-trigger'), config);
-    var modalBody = modal5.element.querySelector('.gmodal__body');
-    modalBody.innerHTML = loader;
+    var video = modal5.element.querySelector('[data-src]');
 
+    modal5.element.addEventListener('gmodal:beforeopen', function(e) {
+      console.log('modal video beforeopen');
+    });
+    modal5.element.addEventListener('gmodal:beforeclose', function(e) {
+      console.log('modal video beforeclose');
+    });
     modal5.element.addEventListener('gmodal:open', function(e) {
-      modalBody.innerHTML = iframe;
+      console.log('modal video open');
+      video.src = video.dataset.src;
     });
     modal5.element.addEventListener('gmodal:close', function(e) {
-      modalBody.innerHTML = loader;
+      console.log('modal video close');
+      video.src = ''
     });
 
     trigger5.addEventListener('click', function() {
