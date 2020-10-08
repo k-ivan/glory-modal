@@ -4,8 +4,9 @@
   "description": "Modal dialog plugin, written in pure JavaScript.",
   "main": "dist/gmodal.js",
   "scripts": {
+    "eslint": "eslint --fix src/js/*.js",
     "dev": "webpack --mode development",
-    "build": "webpack --mode production",
+    "build": "npm run eslint && webpack --mode production",
     "start": "webpack-dev-server --inline --progress --mode development --open",
     "deploy": "gh-pages -d dist"
   },
