@@ -4,14 +4,14 @@ const SELECTORS = {
   modalContainer: '.gmodal__container',
   modalDialog: '.gmodal__dialog',
   modalDismiss: '[data-gmodal="dismiss"]'
-}
+};
 
 const CLASSESS = {
   open: 'gmodal-open',
   show: 'is-show',
   hasAnimate: 'has-animate',
   backdrop: 'gmodal-backdrop'
-}
+};
 
 const DEFAULTS = {
   stickySelectors: [],
@@ -19,7 +19,7 @@ const DEFAULTS = {
   backdrop: true,
   closeBackdrop: true,
   keyboard: true
-}
+};
 
 const FOCUS_SELECTORS = [
   'a[href]',
@@ -36,6 +36,8 @@ const FOCUS_SELECTORS = [
 ].join(',');
 
 class Gmodal {
+  static modals = []
+
   constructor(el, options = {}) {
     if (!el) return false;
 
@@ -62,13 +64,17 @@ class Gmodal {
     this._settings = {
       ...DEFAULTS,
       ...options
-    }
+    };
     this._transitionEndEvent = Util.transitionEnd();
     this._init();
   }
 
   get element() {
     return this._modal;
+  }
+
+  get modalsLength() {
+    return Gmodal.modals.length;
   }
 
   _init() {
@@ -95,7 +101,7 @@ class Gmodal {
   }
 
   _observerCallback(mutations) {
-    const mutationRecord = mutations[0]
+    const mutationRecord = mutations[0];
     const hasRecords =
       mutationRecord.addedNodes.length ||
       mutationRecord.removedNodes.length ||
@@ -211,8 +217,8 @@ class Gmodal {
   }
 
   _setScrollOffset() {
-    this._hasScrollbar = Util.checkScrollbar();
-    this._body.classList.add(CLASSESS.open);
+    // this._hasScrollbar = Util.checkScrollbar();
+
 
     if (!this._hasScrollbar) return;
 
@@ -232,8 +238,6 @@ class Gmodal {
   }
 
   _resetScrollOffset() {
-    this._body.classList.remove(CLASSESS.open);
-
     if (!this._hasScrollbar) return;
 
     this._body.style.paddingRight = this._body.getAttribute('data-gmodal-padding') || '';
@@ -264,7 +268,7 @@ class Gmodal {
     if (this._settings.animation) {
       const duration = Util.getTransitionDurationFromElement(this._backdrop);
 
-      Util.onceTransitionEnd(this._backdrop, this._transitionEndEvent, (e) => {
+      Util.onceTransitionEnd(this._backdrop, this._transitionEndEvent, () => {
         if (this._backdrop.parentNode) {
           this._backdrop.parentNode.removeChild(this._backdrop);
         }
@@ -276,11 +280,28 @@ class Gmodal {
   }
 
   _hideModal() {
-    this._resetScrollOffset();
+    if (this.modalsLength === 1) {
+      this._body.classList.remove(CLASSESS.open);
+      this._resetScrollOffset();
+    }
     this._modal.style.display = '';
     this._isTransitiong = false;
-    if (this._focusableSave) {
+
+    if (this.modalsLength > 1) {
+      const { focuses } = Gmodal.modals[this.modalsLength - 1];
+      setTimeout(() => {
+        focuses?.focus();
+      }, 0);
+    } else if (this._focusableSave) {
       this._focusableSave.focus();
+    }
+
+    Gmodal.modals.pop();
+
+    if (this.modalsLength) {
+      const modal = Gmodal.modals[this.modalsLength - 1].instances;
+      modal.element.style.zIndex = '';
+      modal.element.style.visibility = '';
     }
 
     Util.customTrigger('gmodal:close', this._modal);
@@ -294,9 +315,13 @@ class Gmodal {
     this._isOpen = true;
     this._focusableSave = document.activeElement;
 
-    this._setScrollOffset();
+    if (!this.modalsLength) {
+      this._hasScrollbar = Util.checkScrollbar();
+      this._body.classList.add(CLASSESS.open);
+      this._setScrollOffset();
+    }
 
-    if (this._settings.backdrop) {
+    if (this._settings.backdrop && !this.modalsLength) {
       this._backdrop = this._createBackdrop(this);
     }
     Util.customTrigger('gmodal:beforeopen', this._modal);
@@ -305,6 +330,16 @@ class Gmodal {
     this._isTransitiong = true;
     this._modal.scrollTop = 0;
 
+    if (this.modalsLength) {
+      Gmodal.modals.forEach(modal => {
+        modal.instances.element.style.zIndex = -1;
+        modal.instances.element.style.visibility = 'hidden';
+      });
+    }
+    Gmodal.modals.push({
+      focuses: this._focusableSave,
+      instances: this._modal.instance
+    });
 
     setTimeout(() => {
       if (this._backdrop) {
@@ -313,28 +348,29 @@ class Gmodal {
       this._modal.classList.add(CLASSESS.show);
     }, 20);
 
+    const opened = () => {
+      this._isTransitiong = false;
+      this._focusable();
+      this._modal.focus();
+      Util.customTrigger('gmodal:open', this._modal);
+    };
+
     if (this._settings.animation) {
       this._adjustModal();
 
       const duration = Util.getTransitionDurationFromElement(this._modalContainer);
 
       Util.onceTransitionEnd(this._modalContainer, this._transitionEndEvent, () => {
-        this._isTransitiong = false;
         this._resetAdjustModal();
-        this._focusable();
-        this._modal.focus();
-        Util.customTrigger('gmodal:open', this._modal);
+        opened();
       });
       Util.emulateTransitionEnd(this._modalContainer, duration);
     } else {
-      this._isTransitiong = false;
-      this._focusable();
-      this._modal.focus();
-      Util.customTrigger('gmodal:open', this._modal);
+      opened();
     }
   }
 
-  close() {
+  close(forceClose = false) {
     if (!this._modal) return;
 
     if (!this._isOpen || this._isTransitiong) return;
@@ -346,7 +382,7 @@ class Gmodal {
     this._isOpen = false;
     this._isTransitiong = true;
 
-    if (this._settings.animation) {
+    if (this._settings.animation && !forceClose) {
       const duration = Util.getTransitionDurationFromElement(this._modalContainer);
       Util.onceTransitionEnd(this._modalContainer, this._transitionEndEvent, this._hideModal.bind(this));
       Util.emulateTransitionEnd(this._modalContainer, duration);
@@ -355,14 +391,44 @@ class Gmodal {
     }
   }
 
+  static closeAll() {
+    if (!this.modals.length) return;
+    let forceClose = false;
+    const {
+      _hasScrollbar: hasScrollbar,
+      _focusableSave: focusableSaveEl
+    } = this.modals[0].instances;
+
+
+    this.modals
+      .slice()
+      .reverse()
+      .forEach((modal, index) => {
+        if (index === 0) {
+          modal.instances._hasScrollbar = hasScrollbar;
+        } else {
+          forceClose = true;
+        }
+        modal.instances.close(forceClose);
+        setTimeout(() => {
+          focusableSaveEl?.focus();
+        }, 0);
+      });
+  }
+
   destroy() {
     if (!this._modal) return;
 
     this._observer && this._observer.disconnect();
 
+    const modalHistoryIndex = Gmodal.modals.findIndex(modal => modal.instances._modal === this._modal);
+    if (modalHistoryIndex > -1) {
+      Gmodal.modals.splice(modalHistoryIndex, 1);
+    }
+
     // If backdrop and modal active
     if (this._backdrop && this._backdrop.parentNode) {
-      this._backdrop.parentNode.removeChild(this._backdrop)
+      this._backdrop.parentNode.removeChild(this._backdrop);
     }
     this._hideModal();
     this._modal.classList.remove(CLASSESS.hasAnimate, CLASSESS.show);

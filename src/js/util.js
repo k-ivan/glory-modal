@@ -5,7 +5,7 @@ export default {
 
   getScrollbarWidth() {
     // Create the measurement node
-    const scrollDiv = document.createElement('div')
+    const scrollDiv = document.createElement('div');
     scrollDiv.style.cssText = `
       width: 100px;
       height: 100px;
