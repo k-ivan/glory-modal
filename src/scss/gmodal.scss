@@ -45,10 +45,9 @@ body {
   &.has-animate &__container {
     will-change: transform, opacity;
     opacity: 0;
-    transform: translateY(50px);
-    transition: opacity 0.15s linear, transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    // transition: transform 0.2s ease, opacity 0.15s linear;
-    // transform: scale(0.95);
+    // transition: opacity 0.15s linear, transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: transform 0.2s ease, opacity 0.15s linear;
+    transform: scale(0.97);
   }
 
   &.has-animate.is-show &__container {

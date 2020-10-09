@@ -1,13 +1,13 @@
 const path = require('path');
 const webpack = require('webpack');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const pkg = require('./package.json');
 const paths = {
   srccss: './src/scss',
   srcjs: './src/js',
   dist: './dist'
-}
+};
 const banner = `Glory-modal plugin v${pkg.version} | MIT License | https://github.com/k-ivan/glory-modal`;
 
 module.exports = (env, arg) => {
@@ -46,7 +46,7 @@ module.exports = (env, arg) => {
               }
             }
 
-          ],
+          ]
         },
         {
           test: /\.js$/,
@@ -56,7 +56,11 @@ module.exports = (env, arg) => {
             loader: 'babel-loader',
             options: {
               presets: ['@babel/env'],
-              plugins: ['@babel/plugin-transform-object-assign']
+              plugins: [
+                '@babel/plugin-transform-object-assign',
+                '@babel/plugin-proposal-class-properties',
+                '@babel/plugin-proposal-optional-chaining'
+              ]
             }
           }
         }
