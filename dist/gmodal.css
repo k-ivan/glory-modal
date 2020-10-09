@@ -49,17 +49,13 @@ body.gmodal-open {
 .gmodal.has-animate .gmodal__container {
   will-change: transform, opacity;
   opacity: 0;
-  transition: opacity 0.15s linear, -webkit-transform 0.2s ease;
   transition: transform 0.2s ease, opacity 0.15s linear;
-  transition: transform 0.2s ease, opacity 0.15s linear, -webkit-transform 0.2s ease;
-  -webkit-transform: scale(0.97);
-          transform: scale(0.97);
+  transform: scale(0.97);
 }
 
 .gmodal.has-animate.is-show .gmodal__container {
   opacity: 1;
-  -webkit-transform: none;
-          transform: none;
+  transform: none;
 }
 
 @media (min-width: 480px) {

@@ -217,9 +217,6 @@ class Gmodal {
   }
 
   _setScrollOffset() {
-    // this._hasScrollbar = Util.checkScrollbar();
-
-
     if (!this._hasScrollbar) return;
 
     this._scrollbarWidth = Util.getScrollbarWidth();
@@ -280,6 +277,7 @@ class Gmodal {
   }
 
   _hideModal() {
+    // if single modal window
     if (this.modalsLength === 1) {
       this._body.classList.remove(CLASSESS.open);
       this._resetScrollOffset();
@@ -287,17 +285,18 @@ class Gmodal {
     this._modal.style.display = '';
     this._isTransitiong = false;
 
-    if (this.modalsLength > 1) {
+    if (this.modalsLength) {
       const { focuses } = Gmodal.modals[this.modalsLength - 1];
       setTimeout(() => {
+        // return focus to the document
         focuses?.focus();
       }, 0);
-    } else if (this._focusableSave) {
-      this._focusableSave.focus();
     }
 
+    // remove the last modal instance from the array
     Gmodal.modals.pop();
-
+    // if there are still modal instances in the array
+    // display the previous modal
     if (this.modalsLength) {
       const modal = Gmodal.modals[this.modalsLength - 1].instances;
       modal.element.style.zIndex = '';
@@ -315,27 +314,31 @@ class Gmodal {
     this._isOpen = true;
     this._focusableSave = document.activeElement;
 
+    // if single modal window
     if (!this.modalsLength) {
       this._hasScrollbar = Util.checkScrollbar();
       this._body.classList.add(CLASSESS.open);
       this._setScrollOffset();
+
+      if (this._settings.backdrop) {
+        this._backdrop = this._createBackdrop(this);
+      }
     }
 
-    if (this._settings.backdrop && !this.modalsLength) {
-      this._backdrop = this._createBackdrop(this);
-    }
     Util.customTrigger('gmodal:beforeopen', this._modal);
     this._modal.style.display = 'block';
 
     this._isTransitiong = true;
     this._modal.scrollTop = 0;
 
+    // if there are modals instances hide the previous ones
     if (this.modalsLength) {
       Gmodal.modals.forEach(modal => {
         modal.instances.element.style.zIndex = -1;
         modal.instances.element.style.visibility = 'hidden';
       });
     }
+    // add a new modal instance to the array
     Gmodal.modals.push({
       focuses: this._focusableSave,
       instances: this._modal.instance
@@ -394,25 +397,28 @@ class Gmodal {
   static closeAll() {
     if (!this.modals.length) return;
     let forceClose = false;
+
+    // keep activeFocus and scrolling parameters from the first modal window
     const {
-      _hasScrollbar: hasScrollbar,
-      _focusableSave: focusableSaveEl
+      _hasScrollbar: hasScrollbar
     } = this.modals[0].instances;
 
-
+    // when all modals are closed, expand our array
+    // so that the last instance becomes the first
     this.modals
       .slice()
       .reverse()
       .forEach((modal, index) => {
         if (index === 0) {
+          // for the modal in the foreground
+          // overwrite the _hasScrollbar value from the first modal
           modal.instances._hasScrollbar = hasScrollbar;
         } else {
+          // to instantly hide modals in the background use a forceClose flag
           forceClose = true;
         }
+        // hide all modals
         modal.instances.close(forceClose);
-        setTimeout(() => {
-          focusableSaveEl?.focus();
-        }, 0);
       });
   }
 
