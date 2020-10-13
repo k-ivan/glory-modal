@@ -8,7 +8,8 @@ const SELECTORS = {
 
 const CLASSESS = {
   open: 'gmodal-open',
-  show: 'is-show',
+  show: 'is-shown',
+  hidden: 'is-hidden',
   hasAnimate: 'has-animate',
   backdrop: 'gmodal-backdrop'
 };
@@ -299,8 +300,7 @@ class Gmodal {
     // display the previous modal
     if (this.modalsLength) {
       const modal = Gmodal.modals[this.modalsLength - 1].instances;
-      modal.element.style.zIndex = '';
-      modal.element.style.visibility = '';
+      modal.element.classList.remove(CLASSESS.hidden);
     }
 
     Util.customTrigger('gmodal:close', this._modal);
@@ -334,8 +334,7 @@ class Gmodal {
     // if there are modals instances hide the previous ones
     if (this.modalsLength) {
       Gmodal.modals.forEach(modal => {
-        modal.instances.element.style.zIndex = -1;
-        modal.instances.element.style.visibility = 'hidden';
+        modal.instances.element.classList.add(CLASSESS.hidden);
       });
     }
     // add a new modal instance to the array
@@ -426,11 +425,6 @@ class Gmodal {
     if (!this._modal) return;
 
     this._observer && this._observer.disconnect();
-
-    const modalHistoryIndex = Gmodal.modals.findIndex(modal => modal.instances._modal === this._modal);
-    if (modalHistoryIndex > -1) {
-      Gmodal.modals.splice(modalHistoryIndex, 1);
-    }
 
     // If backdrop and modal active
     if (this._backdrop && this._backdrop.parentNode) {

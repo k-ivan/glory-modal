@@ -23,7 +23,7 @@ body.gmodal-open {
   opacity: 0;
 }
 
-.gmodal-backdrop.has-animate.is-show {
+.gmodal-backdrop.has-animate.is-shown {
   opacity: 1;
 }
 
@@ -53,9 +53,15 @@ body.gmodal-open {
   transform: scale(0.97);
 }
 
-.gmodal.has-animate.is-show .gmodal__container {
+.gmodal.has-animate.is-shown .gmodal__container {
   opacity: 1;
   transform: none;
+}
+
+.gmodal.is-hidden {
+  z-index: -1 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
 }
 
 @media (min-width: 480px) {

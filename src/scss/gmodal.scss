@@ -19,7 +19,7 @@ body {
     will-change: opacity;
     opacity: 0;
   }
-  &.has-animate.is-show {
+  &.has-animate.is-shown {
     opacity: 1;
   }
 }
@@ -50,9 +50,15 @@ body {
     transform: scale(0.97);
   }
 
-  &.has-animate.is-show &__container {
+  &.has-animate.is-shown &__container {
     opacity: 1;
     transform: none;
+  }
+
+  &.is-hidden {
+    z-index: -1 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
   }
 
   &__container {
