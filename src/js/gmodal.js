@@ -287,10 +287,10 @@ class Gmodal {
     this._isTransitiong = false;
 
     if (this.modalsLength) {
-      const { focuses } = Gmodal.modals[this.modalsLength - 1];
+      const { focusEl } = Gmodal.modals[this.modalsLength - 1];
       setTimeout(() => {
         // return focus to the document
-        focuses?.focus();
+        focusEl?.focus();
       }, 0);
     }
 
@@ -299,7 +299,7 @@ class Gmodal {
     // if there are still modal instances in the array
     // display the previous modal
     if (this.modalsLength) {
-      const modal = Gmodal.modals[this.modalsLength - 1].instances;
+      const modal = Gmodal.modals[this.modalsLength - 1].item;
       modal.element.classList.remove(CLASSESS.hidden);
     }
 
@@ -334,13 +334,13 @@ class Gmodal {
     // if there are modals instances hide the previous ones
     if (this.modalsLength) {
       Gmodal.modals.forEach(modal => {
-        modal.instances.element.classList.add(CLASSESS.hidden);
+        modal.item.element.classList.add(CLASSESS.hidden);
       });
     }
     // add a new modal instance to the array
     Gmodal.modals.push({
-      focuses: this._focusableSave,
-      instances: this._modal.instance
+      item: this._modal.instance,
+      focusEl: this._focusableSave
     });
 
     setTimeout(() => {
@@ -400,7 +400,7 @@ class Gmodal {
     // keep activeFocus and scrolling parameters from the first modal window
     const {
       _hasScrollbar: hasScrollbar
-    } = this.modals[0].instances;
+    } = this.modals[0].item;
 
     // when all modals are closed, expand our array
     // so that the last instance becomes the first
@@ -411,13 +411,13 @@ class Gmodal {
         if (index === 0) {
           // for the modal in the foreground
           // overwrite the _hasScrollbar value from the first modal
-          modal.instances._hasScrollbar = hasScrollbar;
+          modal.item._hasScrollbar = hasScrollbar;
         } else {
           // to instantly hide modals in the background use a forceClose flag
           forceClose = true;
         }
         // hide all modals
-        modal.instances.close(forceClose);
+        modal.item.close(forceClose);
       });
   }
 
