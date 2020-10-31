@@ -53,15 +53,7 @@ module.exports = (env, arg) => {
           include: path.resolve(__dirname, paths.srcjs),
           exclude: /node_modules/,
           use: {
-            loader: 'babel-loader',
-            options: {
-              presets: ['@babel/env'],
-              plugins: [
-                '@babel/plugin-transform-object-assign',
-                '@babel/plugin-proposal-class-properties',
-                '@babel/plugin-proposal-optional-chaining'
-              ]
-            }
+            loader: 'babel-loader'
           }
         }
       ]

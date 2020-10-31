@@ -1,8 +1,14 @@
 {
   "name": "glory-modal",
-  "version": "2.1.0-beta.2",
+  "version": "2.1.0-beta.3",
   "description": "Modal dialog plugin, written in pure JavaScript.",
   "main": "dist/gmodal.js",
+  "browserslist": [
+    "last 2 versions",
+    "> 1%",
+    "not dead",
+    "IE 11"
+  ],
   "scripts": {
     "eslint": "eslint --fix src/js/*.js",
     "dev": "webpack --mode development",

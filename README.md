@@ -4,7 +4,7 @@
   <a href="https://www.npmjs.com/package/glory-modal"><img src="https://img.shields.io/npm/l/glory-modal.svg"></a>
   <a href="https://www.npmjs.com/package/glory-modal"><img src="https://img.shields.io/npm/dt/glory-modal.svg"></a>
 </p>
-Modal dialog plugin inspired by <a href="https://getbootstrap.com/">Bootstrap</a> modal dialogs, written in pure JavaScript.
+Modal dialog plugin with multimodals support inspired by <a href="https://getbootstrap.com/">Bootstrap</a> modal dialogs and written in pure JavaScript.
 
 ## Demo
 [Demo](https://k-ivan.github.io/glory-modal/)
@@ -108,6 +108,14 @@ This method close modal dialog.
 
 ### `.destroy()`
 This method stops the plugin. To reinitialize, you need to call the constructor again.
+
+## Static properties and methods
+
+### `Gmodal.closeAll()`
+Method will be useful when several modals are open and you need to close all at once
+
+### `Gmodal.modals`
+Array with data about open modals
 
 ## Events
 Plugin provides an event for open|close modal

@@ -398,9 +398,7 @@ class Gmodal {
     let forceClose = false;
 
     // keep activeFocus and scrolling parameters from the first modal window
-    const {
-      _hasScrollbar: hasScrollbar
-    } = this.modals[0].item;
+    const { _hasScrollbar } = this.modals[0].item;
 
     // when all modals are closed, expand our array
     // so that the last instance becomes the first
@@ -411,7 +409,7 @@ class Gmodal {
         if (index === 0) {
           // for the modal in the foreground
           // overwrite the _hasScrollbar value from the first modal
-          modal.item._hasScrollbar = hasScrollbar;
+          modal.item._hasScrollbar = _hasScrollbar;
         } else {
           // to instantly hide modals in the background use a forceClose flag
           forceClose = true;
