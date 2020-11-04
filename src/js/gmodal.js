@@ -303,7 +303,11 @@ class Gmodal {
       modal.element.classList.remove(CLASSESS.hidden);
     }
 
-    Util.customTrigger('gmodal:close', this._modal);
+    // if the method was called from destroy method
+    // trigger an event only if the modal was open at that moment
+    if (this._isOpen) {
+      Util.customTrigger('gmodal:close', this._modal);
+    }
   }
 
   open() {
