@@ -308,6 +308,8 @@ class Gmodal {
     if (this._isOpen) {
       Util.customTrigger('gmodal:close', this._modal);
     }
+
+    this._isOpen = false;
   }
 
   open() {
@@ -385,7 +387,6 @@ class Gmodal {
     this._modal.classList.remove(CLASSESS.show);
     this._hideBackdrop();
 
-    this._isOpen = false;
     this._isTransitiong = true;
 
     if (this._settings.animation && !forceClose) {
