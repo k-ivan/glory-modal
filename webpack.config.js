@@ -21,7 +21,8 @@ module.exports = (env, arg) => {
       library: 'Gmodal',
       libraryTarget: 'umd',
       libraryExport: 'default',
-      umdNamedDefine: true
+      umdNamedDefine: true,
+      globalObject: `(typeof self !== 'undefined' ? self : this)`
     },
     module: {
       rules: [
