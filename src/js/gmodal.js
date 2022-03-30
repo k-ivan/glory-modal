@@ -37,7 +37,7 @@ const FOCUS_SELECTORS = [
 ].join(',');
 
 class Gmodal {
-  static modals = []
+  static modals = [];
 
   constructor(el, options = {}) {
     if (!el) return false;
@@ -129,6 +129,9 @@ class Gmodal {
       this.close();
     };
     this._clickModal = e => {
+      if (e.button !== 0) {
+        return;
+      }
       if (!this._modalDialog.contains(e.target)) {
         this.close();
       }
@@ -139,7 +142,7 @@ class Gmodal {
     });
 
     if (this._settings.closeBackdrop) {
-      this._modal.addEventListener('click', this._clickModal);
+      this._modal.addEventListener('pointerdown', this._clickModal);
     }
 
     if (this._settings.keyboard) {
@@ -150,7 +153,7 @@ class Gmodal {
 
   _dettachEvents() {
     if (this._settings.closeBackdrop) {
-      this._modal.removeEventListener('click', this._clickModal);
+      this._modal.removeEventListener('pointerdown', this._clickModal);
     }
     this._modalDismiss.forEach(dismiss => {
       dismiss.removeEventListener('click', this._closeHandler);
