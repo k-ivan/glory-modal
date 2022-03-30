@@ -7,9 +7,9 @@ module.exports = {
   'extends': [
     'eslint:recommended'
   ],
-  'parser': 'babel-eslint',
+  'parser': '@babel/eslint-parser',
   'parserOptions': {
-    'ecmaVersion': 2020,
+    'ecmaVersion': 2022,
     'sourceType': 'module'
   },
   'rules': {

@@ -1,7 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const pkg = require('./package.json');
 const paths = {
   srccss: './src/scss',
@@ -17,6 +17,7 @@ module.exports = (env, arg) => {
       `${paths.srcjs}/gmodal.js`
     ],
     output: {
+      path: path.resolve(__dirname, 'dist'),
       filename: 'gmodal.js',
       library: 'Gmodal',
       libraryTarget: 'umd',
@@ -34,19 +35,21 @@ module.exports = (env, arg) => {
             {
               loader: 'postcss-loader',
               options: {
-                ident: 'postcss',
-                plugins: [
-                  require('autoprefixer')
-                ]
+                postcssOptions: {
+                  plugins: [
+                    require('autoprefixer')
+                  ]
+                }
               }
             },
             {
               loader: 'sass-loader',
               options: {
-                outputStyle: 'expanded'
+                sassOptions: {
+                  outputStyle: 'expanded'
+                }
               }
             }
-
           ]
         },
         {
@@ -60,16 +63,21 @@ module.exports = (env, arg) => {
       ]
     },
     devServer: {
-      contentBase: path.join(__dirname, paths.dist),
+      port: 8088,
+      static: path.join(__dirname, paths.dist),
       compress: true,
-      overlay: true,
-      port: 8088
+      client: {
+        progress: true
+      }
     },
     devtool: arg.mode === 'development' ? 'eval-source-map' : false,
     plugins: [
-      new CleanWebpackPlugin([paths.dist], {
-        exclude: ['index.html'],
-        verbose: true
+      new CleanWebpackPlugin({
+        verbose: true,
+        cleanOnceBeforeBuildPatterns: [
+          '**/*',
+          '!index.html'
+        ]
       }),
       new MiniCssExtractPlugin({
         filename: 'gmodal.css'
