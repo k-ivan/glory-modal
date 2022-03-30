@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Gmodal</title>
-    <link rel="stylesheet" href="gmodal.css" />
+    <link rel="stylesheet" href="./gmodal.css" />
     <style>
       html {
         font-size: 14px;
@@ -389,8 +389,22 @@
       </div>
     </div>
 
+    <div class="gmodal" id="confirm" role="dialog" aria-labelledby="confirm">
+      <div class="gmodal__container has-center">
+        <div class="gmodal__dialog">
+          <div class="gmodal__body">
+            Are you sure?
+          </div>
+          <div class="gmodal__footer">
+            <button data-gmodal="confirm">yes</button>
+            <button data-gmodal="dismiss">no</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </body>
-  <script src="gmodal.js"></script>
+  <script src="./gmodal.js"></script>
   <script>
     var config = {
       stickySelectors: ['header']
@@ -466,6 +480,8 @@
     multiModal2.element.querySelector('#closeall').addEventListener('click', function() {
       Gmodal.closeAll();
     })
+
+    // Gmodal.confirm(document.getElementById('confirm')).then(hasConfirm => console.log(hasConfirm));
 
   </script>
 </html>
