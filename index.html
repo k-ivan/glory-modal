@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Gmodal</title>
+    <link href="gmodal.css" rel="stylesheet">
+    <style>
+      html {
+        font-size: 14px;
+      }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droid Sans", "Helvetica Neue", Aria, sans-serif;
+        margin: 0;
+        padding-top: 5rem;
+        line-height: 1.5;
+        font-size: 1rem;
+        color: #555;
+        background-color: #fff;
+      }
+      header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        color: #fff;
+        background-color: royalblue;
+        background: linear-gradient(to right, #4568dc, #b06ab3);
+        padding: 1.25rem 0;
+        z-index: 100;
+      }
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding-right: 1.25rem;
+        padding-left: 1.25rem;
+      }
+      h1 {
+        margin-top: 0;
+        margin-bottom: 0;
+        font-size: 1.5rem;
+        font-weight: 500;
+        line-height: 1;
+      }
+      section {
+        padding-top: 1.25rem;
+        padding-bottom: 1.25rem;
+      }
+      section h2 {
+        position: sticky;
+        top: 72px;
+        margin-top: 0;
+        padding-bottom: 0.6rem;
+        font-size: 1.75rem;
+        border-bottom: 1px solid #ddd;
+        background-color: #fff;
+      }
+      pre, code {
+        font-family: Consolas, Courier, monospace;
+        font-size: inherit;
+        color: #333;
+        border: 1px solid #eee;
+        background-color: rgb(250,250,250);
+      }
+      pre {
+        padding: 1rem;
+        overflow: auto;
+        border-radius: 3px;
+      }
+      pre > code {
+        padding: 0;
+        white-space: pre;
+        border: 0;
+      }
+      code {
+        font-size: 90%;
+        padding: 0.2rem 0.4rem;
+        white-space: nowrap;
+      }
+      .example-list {
+        margin: 0;
+        padding-left: 0;
+        list-style: none;
+        font-size: 0;
+      }
+      .example-list li {
+        display: inline-block;
+        margin: 0.18rem;
+        font-size: 1rem;
+      }
+      .btn {
+        display: inline-block;
+        padding: .5rem 1rem;
+        font-size: inherit;
+        font-family: inherit;
+        vertical-align: middle;
+        text-align: center;
+        text-decoration: none;
+        color: #fff;
+        border: transparent;
+        border-radius: 0.125rem;
+        background-color: #4568dc;
+        cursor: pointer;
+        user-select: none;
+      }
+      .btn-active {
+        box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset, 0 0 6px rgba(0,0,0,.2) inset;
+      }
+      .video {
+        position: relative;
+        padding: 0;
+      }
+      .loading {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-left: -20px;
+        margin-top: -20px;
+        width: 40px;
+        height: 40px;
+        animation: rotator 1.5s linear infinite;
+        transform-origin: center;
+      }
+      .loading>.path {
+        stroke-dasharray: 265;
+        stroke-dashoffset: 0;
+        transform-origin: center;
+        animation: dash 1.5s ease-in-out infinite;
+      }
+      @keyframes rotator {
+        0% {
+          transform: rotate(0)
+        }
+
+        to {
+          transform: rotate(1turn)
+        }
+      }
+      @keyframes dash {
+        0% {
+          stroke-dashoffset: 225
+        }
+
+        50% {
+          stroke-dashoffset: 65;
+          transform: rotate(90deg)
+        }
+
+        to {
+          stroke-dashoffset: 225;
+          transform: rotate(360deg)
+        }
+      }
+
+      #video .gmodal__container {
+        max-width: 100%;
+        padding-right: 15px;
+        padding-left: 15px;
+      }
+      #video .gmodal__container.has-center {
+        display: flex;
+        align-items: center;
+        min-height: calc(100vh - 60px);
+      }
+
+      #video .gmodal__dialog {
+        position: relative;
+        width: calc(75vh * 1.77);
+        max-height: 75vh;
+        min-height: auto;
+        margin: auto;
+        background-color: #333;
+      }
+      #video .gmodal__body {
+        padding: 0;
+        overflow: hidden;
+      }
+      .video-responsive {
+        position: relative;
+        max-width: 100%;
+        height: 0;
+        padding-top: 56.25%;
+        overflow: hidden;
+      }
+      .video-responsive iframe {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+      }
+      @media (min-width: 480px) {
+        html {
+          font-size: 16px;
+        }
+      }
+      @media (min-width: 768px) {
+        h1 {
+          font-size: 2rem;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <div class="container">
+        <h1>Glory modal plugin</h1>
+      </div>
+    </header>
+    <main>
+      <section class="examples">
+        <div class="container">
+          <h2 id="examples">Examples</h2>
+          <p>Check out the some following examples:</p>
+          <ul class="example-list">
+            <li><button class="btn" data-trigger="#default">Default</button></li>
+            <li><button class="btn" data-trigger="#vcenter">Vertical center</button></li>
+            <li><button class="btn" data-trigger="#scrollcontent">Scroll content</button></li>
+            <li><button class="btn" data-trigger="#noanimation">Noanimation</button></li>
+            <li><button class="btn" data-trigger="#video">Custom with iframe</button></li>
+            <li><button class="btn" data-trigger="#multi">Multi modals</button></li>
+          </ul>
+        </div>
+      </section>
+      <section>
+        <div class="container">
+          <h2 id="usage">Usage</h2>
+          <p>HTML markup</p>
+<pre><code>&lt;div class="gmodal" id="exampleModal" role="dialog" aria-labelledby="Modal"&gt;
+  &lt;div class="gmodal__container"&gt;
+    &lt;div class="gmodal__dialog"&gt;
+      &lt;div class="gmodal__header"&gt;
+        &lt;div class="gmodal__title"&gt;Modal&lt;/div&gt;
+        &lt;button type="button" class="gmodal__close" data-gmodal="dismiss"&gt;
+            &lt;svg width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"&gt;&lt;path d="M6.34 6.34l11.32 11.32m-11.32 0L17.66 6.34"/&gt;
+          &lt;/svg&gt;
+        &lt;/button&gt;
+      &lt;/div&gt;
+      &lt;div class="gmodal__body"&gt;
+        Some content
+      &lt;/div&gt;
+      &lt;div class="gmodal__footer"&gt;
+        &lt;button data-gmodal="dismiss"&gt;Close&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+          <p>Include plugin styles</p>
+<pre><code>&lt;link rel="stylesheet" href="gmodal.css" /&gt;</code></pre>
+          <p>Init plugin</p>
+<pre><code>var modal = new Gmodal('#exampleModal');</code></pre>
+          <a href="https://github.com/k-ivan/glory-modal/blob/master/README.md" class="btn">Documentation</a>
+        </div>
+      </section>
+    </main>
+
+    <div class="gmodal" id="default" role="dialog" aria-labelledby="modalDefault">
+      <div class="gmodal__container">
+        <div class="gmodal__dialog">
+          <div class="gmodal__header">
+            <div class="gmodal__title">Modal</div>
+            <button type="button" class="gmodal__close" data-gmodal="dismiss">
+                <svg width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6.34 6.34l11.32 11.32m-11.32 0L17.66 6.34"/>
+              </svg>
+            </button>
+          </div>
+          <div class="gmodal__body">
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ea ab ullam temporibus culpa nulla veritatis, officiis cum voluptatum hic laudantium qui molestiae deserunt unde nisi dolor beatae necessitatibus ex incidunt architecto aspernatur distinctio quam illum id cupiditate? Ducimus aliquid cupiditate, consequatur dignissimos voluptatibus odio vero at? Voluptas tempore cumque rem reprehenderit laboriosam maxime ex praesentium consequuntur, esse architecto itaque repellendus eligendi repudiandae nesciunt, veritatis expedita labore laudantium. Magni tempore ex harum eum animi dolores. Blanditiis dicta iusto repellendus perferendis nulla molestiae ea ducimus rem id voluptatem facere dolore sit sunt eaque dolor illum, eum veniam, optio quisquam ratione. Molestiae, illum.
+          </div>
+          <div class="gmodal__footer">
+            <button data-gmodal="dismiss">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="gmodal" id="vcenter" role="dialog" aria-labelledby="Verttical center">
+      <div class="gmodal__container has-center">
+        <div class="gmodal__dialog">
+          <div class="gmodal__header">
+            <div class="gmodal__title">Modal</div>
+            <button type="button" class="gmodal__close" data-gmodal="dismiss">
+              <svg width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6.34 6.34l11.32 11.32m-11.32 0L17.66 6.34"/>
+              </svg>
+            </button>
+          </div>
+          <div class="gmodal__body">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore eos numquam soluta harum, id labore facilis, quidem ipsam, ab ipsum quisquam magni vero nam reiciendis magnam? Nobis nemo repellendus animi in nulla facere nostrum tenetur voluptas placeat dolores a ad provident deserunt odio incidunt molestias voluptates adipisci ipsam deleniti odit porro asperiores, optio aut modi? Suscipit molestiae fugit natus aperiam! Fugit praesentium modi animi voluptatibus cupiditate voluptates temporibus eaque, asperiores aspernatur doloribus atque non molestiae repellat assumenda. Quam facere labore optio voluptates necessitatibus sit accusamus ad? Rem suscipit quo et nostrum consequuntur magnam accusantium corporis alias, autem ipsa nisi facere sunt doloremque labore, quam dolore perferendis odit enim. Quisquam quae eum odio dignissimos nulla et hic sint natus dolor debitis sequi veniam itaque quos fuga velit repellat ipsa aliquid inventore.
+            <button onclick="this.closest('.gmodal__dialog').querySelector('.gmodal__footer button').hidden = true">attribute changes</button>
+          </div>
+          <div class="gmodal__footer">
+            <button data-gmodal="dismiss">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="gmodal" id="scrollcontent" role="dialog" aria-labelledby="scroll content">
+      <div class="gmodal__container has-center">
+        <div class="gmodal__dialog">
+          <div class="gmodal__header">
+            <div class="gmodal__title">Modal</div>
+            <button type="button" class="gmodal__close" data-gmodal="dismiss">
+              <svg width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6.34 6.34l11.32 11.32m-11.32 0L17.66 6.34"/>
+              </svg>
+            </button>
+          </div>
+          <div class="gmodal__body">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore eos numquam soluta harum, id labore facilis, quidem ipsam, ab ipsum quisquam magni vero nam reiciendis magnam? Nobis nemo repellendus animi in nulla facere nostrum tenetur voluptas placeat dolores a ad provident deserunt odio incidunt molestias voluptates adipisci ipsam deleniti odit porro asperiores, optio aut modi? Suscipit molestiae fugit natus aperiam! Fugit praesentium modi animi voluptatibus cupiditate voluptates temporibus eaque, asperiores aspernatur doloribus atque non molestiae repellat assumenda. Quam facere labore optio voluptates necessitatibus sit accusamus ad? Rem suscipit quo et nostrum consequuntur magnam accusantium corporis alias, autem ipsa nisi facere sunt doloremque labore, quam dolore perferendis odit enim. Quisquam quae eum odio dignissimos nulla et hic sint natus dolor debitis sequi veniam itaque quos fuga velit repellat ipsa aliquid inventore, eos accusantium consequuntur vitae tempore. Illo animi quia consequuntur repellendus debitis nulla mollitia aperiam consectetur impedit nam est laborum sint, error laboriosam aspernatur, harum reiciendis alias rerum! Temporibus, dolorem. Earum, in officia facilis distinctio porro temporibus sapiente laboriosam sint ab quam deserunt pariatur. Sapiente consequatur voluptate ex soluta ratione repellendus sequi exercitationem necessitatibus, illum totam libero suscipit reprehenderit iste corporis ipsa impedit accusantium provident ab officiis quam. Perferendis illo optio eius dolores voluptatibus velit repellat beatae? In eaque dicta voluptas corporis fugiat dolores atque omnis quisquam at, aliquam ut quasi provident laudantium ab tempora excepturi amet autem unde exercitationem vero corrupti rem culpa. Fuga, cupiditate obcaecati. Nostrum obcaecati voluptas quas autem eius. Maiores cumque perferendis error? Veritatis voluptatum eum cum deleniti tempora laboriosam aliquid quisquam molestias. Dolorum voluptatum libero atque maiores voluptatibus, maxime minus error est deleniti dolorem nisi ullam, magni quibusdam. Odit eius ducimus quod, velit laboriosam quis provident! Sunt eos neque voluptates, aspernatur laboriosam ullam rerum culpa nulla sit quam voluptatibus consequuntur illum odio cumque eaque libero! Fugit non sapiente enim natus! Doloremque expedita alias laboriosam earum perspiciatis in suscipit, dolores temporibus optio veniam sit id nihil voluptates ipsum. Voluptates, nulla autem tempore voluptatem blanditiis voluptatum sed dolore vel unde libero temporibus rerum in laudantium. Maiores perspiciatis eligendi dolor, commodi omnis vel ex nobis consectetur ea, exercitationem officiis inventore saepe nulla explicabo, velit autem. Inventore repellendus assumenda amet praesentium beatae deleniti eos velit fuga quibusdam quae, mollitia vitae sapiente at itaque facilis doloribus, ex consectetur ratione similique, tenetur modi nihil sit. Iusto atque veritatis non odit fuga nostrum hic illum commodi earum fugit voluptas, deserunt velit esse amet nam facilis delectus maxime ipsa nesciunt mollitia iste ipsam quod sit tempora. Cumque, consectetur odit unde, dolores in deserunt id eligendi voluptates officia doloribus nobis error necessitatibus similique earum rem hic omnis laboriosam vitae beatae sapiente. Molestias id excepturi nemo ad quibusdam eveniet, natus minus cumque temporibus! Saepe ratione nulla blanditiis explicabo totam ab enim dolorem sapiente repudiandae! Accusantium, architecto. Eaque, provident iste! Dicta quidem repudiandae ut reprehenderit aperiam deserunt culpa officiis molestias amet, consectetur magni? Architecto corporis ab praesentium quaerat, deleniti quis eaque libero nemo asperiores, eveniet amet, quisquam soluta minus dolorum totam nesciunt fugit error sapiente exercitationem sit?
+          </div>
+          <div class="gmodal__footer">
+            <button data-gmodal="dismiss">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="gmodal" id="noanimation" role="dialog" aria-labelledby="Animation disable">
+      <div class="gmodal__container has-center">
+        <div class="gmodal__dialog">
+          <div class="gmodal__header">
+            <div class="gmodal__title">Modal</div>
+            <button type="button" class="gmodal__close" data-gmodal="dismiss">
+              <svg width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6.34 6.34l11.32 11.32m-11.32 0L17.66 6.34"/>
+              </svg>
+            </button>
+          </div>
+          <div class="gmodal__body">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae, provident incidunt iusto maiores amet quae iure, architecto nostrum, commodi accusantium corporis molestiae nesciunt. Obcaecati in a mollitia iusto neque! Temporibus deleniti cupiditate rem exercitationem ex optio. Nam, doloribus quidem quasi cumque repellat quos perferendis nobis! Saepe, cumque unde facere, iste repellendus sit praesentium alias odit, molestias quae exercitationem fugit earum. Voluptatum in dolorem ipsum deleniti quisquam porro repudiandae. Iure ullam hic aliquid, omnis doloribus architecto in qui neque nesciunt voluptatum, error sit? Non omnis modi, sit reprehenderit, asperiores tempore consequuntur ipsam quaerat perferendis fuga accusamus voluptas similique atque id incidunt doloremque dolore cum fugit itaque blanditiis, vero aliquam at. Eveniet natus nobis aspernatur nihil alias voluptatum sapiente beatae autem asperiores.
+          </div>
+          <div class="gmodal__footer">
+            <button data-gmodal="dismiss">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="gmodal" id="video" role="dialog" aria-labelledby="youtube">
+      <div class="gmodal__container has-center">
+        <div class="gmodal__dialog">
+          <div class="gmodal__body">
+            <div class="video-responsive">
+              <iframe width="560" height="315" data-src="https://www.youtube.com/embed/LXb3EKWsInQ?autoplay=1" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Multi modals -->
+    <div class="gmodal" id="multimodal1" role="dialog" aria-labelledby="multimodal1">
+      <div class="gmodal__container has-center">
+        <div class="gmodal__dialog">
+          <div class="gmodal__header">
+            First Modal
+          </div>
+          <div class="gmodal__body">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere iusto numquam maiores nihil neque dignissimos quis, veritatis sint, illo nisi dolore ab dolores error aut adipisci iure repellat! Excepturi, natus deserunt! Expedita alias voluptates voluptatibus maxime odio commodi eum corporis quasi necessitatibus aliquam explicabo iusto dolore quibusdam exercitationem accusantium eaque, neque labore dolorum dolor suscipit? Dolorum vero iure nulla cum? Reprehenderit eum nulla ad perferendis ducimus animi non sed harum numquam, repudiandae, earum nobis! Autem architecto atque possimus cumque, accusamus quae ratione maiores ducimus impedit provident necessitatibus doloribus molestias officiis nemo veritatis quis consectetur natus. Maiores nemo voluptas earum repudiandae qui, numquam dolorem perspiciatis rem ducimus esse tempora eligendi asperiores nulla sunt recusandae libero aliquid, quia suscipit non minus? Quia quos accusantium asperiores minima nobis tempore et debitis obcaecati error dolor ipsum, numquam a, ad maiores. Similique incidunt quam molestias natus magnam corporis sapiente placeat maiores labore ad mollitia optio iure numquam eos beatae, eaque itaque iste amet! Aliquam harum quis quod nam laboriosam, similique ex molestias in voluptatibus accusantium necessitatibus exercitationem. Autem commodi officia eaque aliquam ipsum in, molestiae dolorem dolores nemo! Esse iusto, quasi possimus repellendus magnam, atque quia numquam aliquam amet voluptates, eaque ut molestiae minima laborum.
+          </div>
+          <div class="gmodal__footer">
+            <button id="secondmodal">Open second modal</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="gmodal" id="multimodal2" role="dialog" aria-labelledby="multimodal2">
+      <div class="gmodal__container has-center">
+        <div class="gmodal__dialog">
+          <div class="gmodal__header">
+            Second Modal
+          </div>
+          <div class="gmodal__body">
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nemo debitis in atque! Corporis animi tenetur expedita aliquid? Illum temporibus similique tempora, accusantium pariatur odit dicta soluta quasi sint quos quas?
+          </div>
+          <div class="gmodal__footer">
+            <button id="closeall">close all</button>
+            <button data-gmodal="dismiss">close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="gmodal" id="confirm" role="dialog" aria-labelledby="confirm">
+      <div class="gmodal__container has-center">
+        <div class="gmodal__dialog">
+          <div class="gmodal__body">
+            Are you sure?
+          </div>
+          <div class="gmodal__footer">
+            <button data-gmodal="confirm">yes</button>
+            <button data-gmodal="dismiss">no</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </body>
+  <script src="gmodal.js"></script>
+  <script>
+    var config = {
+      stickySelectors: ['header']
+    }
+
+    var trigger1 = document.querySelector('[data-trigger="#default"]');
+    var modal1 = new Gmodal(trigger1.getAttribute('data-trigger'), config);
+
+    trigger1.addEventListener('click', function() {
+      modal1.open();
+    });
+
+    var trigger2 = document.querySelector('[data-trigger="#vcenter"]');
+    var modal2 = new Gmodal(trigger2.getAttribute('data-trigger'), config);
+
+    trigger2.addEventListener('click', function() {
+      modal2.open();
+    });
+
+    var trigger3 = document.querySelector('[data-trigger="#scrollcontent"]');
+    var modal3 = new Gmodal(trigger3.getAttribute('data-trigger'), {
+      stickySelectors: ['header']
+    });
+
+    trigger3.addEventListener('click', function() {
+      modal3.open();
+    });
+
+    var trigger4 = document.querySelector('[data-trigger="#noanimation"]');
+    var modal4 = new Gmodal(trigger4.getAttribute('data-trigger'), {
+      stickySelectors: ['header'],
+      animation: false
+    });
+
+    trigger4.addEventListener('click', function(e) {
+      modal4.open();
+    });
+
+    var trigger5 = document.querySelector('[data-trigger="#video"]');
+    var modal5 = new Gmodal(trigger5.getAttribute('data-trigger'), config);
+    var video = modal5.element.querySelector('[data-src]');
+
+    modal5.element.addEventListener('gmodal:beforeopen', function(e) {
+      console.log('modal video beforeopen');
+    });
+    modal5.element.addEventListener('gmodal:beforeclose', function(e) {
+      console.log('modal video beforeclose');
+    });
+    modal5.element.addEventListener('gmodal:open', function(e) {
+      console.log('modal video open');
+      video.src = video.dataset.src;
+    });
+    modal5.element.addEventListener('gmodal:close', function(e) {
+      console.log('modal video close');
+      video.src = ''
+    });
+
+    trigger5.addEventListener('click', function() {
+      modal5.open();
+    });
+
+    var trigger6 = document.querySelector('[data-trigger="#multi"]');
+    var multiModal1 = new Gmodal('#multimodal1', config);
+    var multiModal2 = new Gmodal('#multimodal2', config);
+
+    trigger6.addEventListener('click', function(e) {
+      multiModal1.open();
+    });
+
+    multiModal1.element.querySelector('#secondmodal').addEventListener('click', function() {
+      multiModal2.open();
+    });
+    multiModal2.element.querySelector('#closeall').addEventListener('click', function() {
+      Gmodal.closeAll();
+    })
+    // Gmodal.confirm(document.getElementById('confirm')).then(hasConfirm => console.log(hasConfirm));
+  </script>
+</html>
