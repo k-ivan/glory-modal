@@ -13,8 +13,7 @@
     "eslint": "eslint --fix src/js/*.js",
     "dev": "webpack --mode development",
     "build": "npm run eslint && webpack --mode production",
-    "start": "npx webpack serve --mode development --open",
-    "deploy": "gh-pages -d dist"
+    "start": "npx webpack serve --mode development --open"
   },
   "repository": {
     "type": "git",
