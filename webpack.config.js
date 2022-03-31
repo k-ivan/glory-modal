@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const pkg = require('./package.json');
 const paths = {
   srccss: './src/scss',
@@ -12,6 +13,7 @@ const banner = `Glory-modal plugin v${pkg.version} | MIT License | https://githu
 
 module.exports = (env, arg) => {
   return {
+    target: 'web',
     entry: [
       `${paths.srccss}/gmodal.scss`,
       `${paths.srcjs}/gmodal.js`
@@ -66,8 +68,10 @@ module.exports = (env, arg) => {
       port: 8088,
       static: path.join(__dirname, paths.dist),
       compress: true,
+      hot: false,
+      watchFiles: ['src/demo/index.html'],
       client: {
-        progress: true
+        overlay: true
       }
     },
     devtool: arg.mode === 'development' ? 'eval-source-map' : false,
@@ -75,12 +79,17 @@ module.exports = (env, arg) => {
       new CleanWebpackPlugin({
         verbose: true,
         cleanOnceBeforeBuildPatterns: [
-          '**/*',
-          '!index.html'
+          '**/*'
         ]
       }),
       new MiniCssExtractPlugin({
         filename: 'gmodal.css'
+      }),
+      new HtmlWebpackPlugin({
+        template: `./src/demo/index.html`,
+        minify: false,
+        inject: false,
+        scriptLoading: 'blocking'
       }),
       new webpack.BannerPlugin({
         test: /\.js$/,

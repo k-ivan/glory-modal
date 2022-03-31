@@ -13,7 +13,7 @@
     "eslint": "eslint --fix src/js/*.js",
     "dev": "webpack --mode development",
     "build": "npm run eslint && webpack --mode production",
-    "start": "webpack-dev-server --mode development --open",
+    "start": "npx webpack serve --mode development --open",
     "deploy": "gh-pages -d dist"
   },
   "repository": {
@@ -41,7 +41,7 @@
     "clean-webpack-plugin": "^4.0.0",
     "css-loader": "^6.7.1",
     "eslint": "^8.12.0",
-    "gh-pages": "^3.2.3",
+    "html-webpack-plugin": "^5.5.0",
     "mini-css-extract-plugin": "^2.6.0",
     "postcss-loader": "^6.2.1",
     "sass": "^1.49.9",
