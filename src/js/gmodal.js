@@ -128,13 +128,23 @@ class Gmodal {
       e.stopPropagation();
       this.close();
     };
-    this._clickModal = e => {
-      if (e.button !== 0) {
+    this._clickOutside = e => {
+      if (this._ignoreBackdropClick) {
+        this._ignoreBackdropClick = false;
         return;
       }
       if (!this._modalDialog.contains(e.target)) {
         this.close();
       }
+    };
+    this._dialogMouseDown = () => {
+      const onMouseUp = (e) => {
+        this._modal.removeEventListener('mouseup', onMouseUp);
+        if (e.target === this._modal) {
+          this._ignoreBackdropClick = true;
+        }
+      };
+      this._modal.addEventListener('mouseup', onMouseUp);
     };
 
     this._modalDismiss.forEach(dismiss => {
@@ -142,7 +152,8 @@ class Gmodal {
     });
 
     if (this._settings.closeBackdrop) {
-      this._modal.addEventListener('pointerdown', this._clickModal);
+      this._modal.addEventListener('click', this._clickOutside);
+      this._modalDialog.addEventListener('mousedown', this._dialogMouseDown);
     }
 
     if (this._settings.keyboard) {
@@ -153,7 +164,8 @@ class Gmodal {
 
   _dettachEvents() {
     if (this._settings.closeBackdrop) {
-      this._modal.removeEventListener('pointerdown', this._clickModal);
+      this._modal.removeEventListener('click', this._clickOutside);
+      this._modalDialog.removeEventListener('mousedown', this._dialogMouseDown);
     }
     this._modalDismiss.forEach(dismiss => {
       dismiss.removeEventListener('click', this._closeHandler);
