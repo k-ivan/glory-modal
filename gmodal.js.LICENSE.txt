@@ -1,1 +1,1 @@
-/*! Glory-modal plugin v2.3.1 | MIT License | https://github.com/k-ivan/glory-modal */
+/*! Glory-modal plugin v2.3.2 | MIT License | https://github.com/k-ivan/glory-modal */
