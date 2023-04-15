@@ -282,8 +282,8 @@ class Gmodal {
       const duration = Util.getTransitionDurationFromElement(this._backdrop);
 
       Util.onceTransitionEnd(this._backdrop, this._transitionEndEvent, () => {
-        if (this._backdrop.parentNode) {
-          this._backdrop.parentNode.removeChild(this._backdrop);
+        if (this._backdrop?.parentNode) {
+          this._backdrop.parentNode?.removeChild(this._backdrop);
         }
       });
       Util.emulateTransitionEnd(this._backdrop, duration);
@@ -441,6 +441,10 @@ class Gmodal {
 
   destroy() {
     if (!this._modal) return;
+
+    // forcing isOpen state to false
+    // close event should not be fired in the hideModal method
+    this._isOpen = false;
 
     this._observer && this._observer.disconnect();
 
