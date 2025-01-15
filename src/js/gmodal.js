@@ -129,22 +129,12 @@ class Gmodal {
       this.close();
     };
     this._clickOutside = e => {
-      if (this._ignoreBackdropClick) {
-        this._ignoreBackdropClick = false;
-        return;
-      }
-      if (!this._modalDialog.contains(e.target)) {
+      // if the target element is not inside the modal dialog then close the modal
+      // if the target element has connected to the DOM
+      // then `contains` will return false and the modal will be closed
+      if (e.target.isConnected && !this._modalDialog.contains(e.target)) {
         this.close();
       }
-    };
-    this._dialogMouseDown = () => {
-      const onMouseUp = (e) => {
-        this._modal.removeEventListener('mouseup', onMouseUp);
-        if (e.target === this._modal) {
-          this._ignoreBackdropClick = true;
-        }
-      };
-      this._modal.addEventListener('mouseup', onMouseUp);
     };
 
     this._modalDismiss.forEach(dismiss => {
@@ -153,7 +143,6 @@ class Gmodal {
 
     if (this._settings.closeBackdrop) {
       this._modal.addEventListener('click', this._clickOutside);
-      this._modalDialog.addEventListener('mousedown', this._dialogMouseDown);
     }
 
     if (this._settings.keyboard) {
@@ -165,7 +154,6 @@ class Gmodal {
   _dettachEvents() {
     if (this._settings.closeBackdrop) {
       this._modal.removeEventListener('click', this._clickOutside);
-      this._modalDialog.removeEventListener('mousedown', this._dialogMouseDown);
     }
     this._modalDismiss.forEach(dismiss => {
       dismiss.removeEventListener('click', this._closeHandler);
