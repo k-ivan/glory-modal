@@ -271,6 +271,8 @@
           </div>
           <div class="gmodal__body">
             Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ea ab ullam temporibus culpa nulla veritatis, officiis cum voluptatum hic laudantium qui molestiae deserunt unde nisi dolor beatae necessitatibus ex incidunt architecto aspernatur distinctio quam illum id cupiditate? Ducimus aliquid cupiditate, consequatur dignissimos voluptatibus odio vero at? Voluptas tempore cumque rem reprehenderit laboriosam maxime ex praesentium consequuntur, esse architecto itaque repellendus eligendi repudiandae nesciunt, veritatis expedita labore laudantium. Magni tempore ex harum eum animi dolores. Blanditiis dicta iusto repellendus perferendis nulla molestiae ea ducimus rem id voluptatem facere dolore sit sunt eaque dolor illum, eum veniam, optio quisquam ratione. Molestiae, illum.
+
+            <button id="remove">remove this button</button>
           </div>
           <div class="gmodal__footer">
             <button data-gmodal="dismiss">Close</button>
@@ -408,6 +410,11 @@
   <script>
     var config = {
       stickySelectors: ['header']
+    }
+
+    window.remove.onclick = function(e) {
+      e.preventDefault();
+      e.target.remove()
     }
 
     var trigger1 = document.querySelector('[data-trigger="#default"]');
